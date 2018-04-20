@@ -58,6 +58,21 @@ namespace LoxInterpreter
                 case '<': AddToken(Match('=') ? TokenType.LessEqual : TokenType.Less); break;
                 case '>': AddToken(Match('=') ? TokenType.GreaterEqual : TokenType.Greater); break;
 
+                case '/':
+                    if (Match('/'))
+                    {
+                        // a comment goes until the end of the line
+                        while (Peek() != '\n' && !IsAtEnd())
+                        {
+                            Advance();
+                        }
+                    }
+                    else
+                    {
+                        AddToken(TokenType.Slash);
+                    }
+                    break;
+
                 default:
                     Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
                     break;
@@ -83,11 +98,18 @@ namespace LoxInterpreter
 
         private bool Match(char expected)
         {
-            if (IsAtEnd()) return false;
-            if (source[current] != expected) return false;
+            if (IsAtEnd() || source[current] != expected)
+            {
+                return false;
+            }
 
             current++;
             return true;
+        }
+
+        private char Peek()
+        {
+            return IsAtEnd() ? '\0' : source[current];
         }
     }
 }
