@@ -52,6 +52,12 @@ namespace LoxInterpreter
                 case '+': AddToken(TokenType.Plus); break;
                 case ';': AddToken(TokenType.Semicolon); break;
                 case '*': AddToken(TokenType.Star); break;
+
+                case '!': AddToken(Match('=') ? TokenType.BangEqual : TokenType.Bang); break;
+                case '=': AddToken(Match('=') ? TokenType.EqualEqual : TokenType.Equal); break;
+                case '<': AddToken(Match('=') ? TokenType.LessEqual : TokenType.Less); break;
+                case '>': AddToken(Match('=') ? TokenType.GreaterEqual : TokenType.Greater); break;
+
                 default:
                     Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
                     break;
@@ -66,13 +72,22 @@ namespace LoxInterpreter
 
         private void AddToken(TokenType type)
         {
-
+            AddToken(type, null);
         }
 
         private void AddToken(TokenType type, object literal)
         {
             string text = source.Substring(start, current - start + 1);
             tokens.Add(new Token(type, text, literal, line));
+        }
+
+        private bool Match(char expected)
+        {
+            if (IsAtEnd()) return false;
+            if (source[current] != expected) return false;
+
+            current++;
+            return true;
         }
     }
 }
