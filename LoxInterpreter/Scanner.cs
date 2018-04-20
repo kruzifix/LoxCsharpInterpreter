@@ -80,7 +80,14 @@ namespace LoxInterpreter
                 case '"': ParseString(); break;
 
                 default:
-                    Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
+                    if (IsDigit(c))
+                    {
+                        ParseNumber();
+                    }
+                    else
+                    {
+                        Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
+                    }
                     break;
             }
         }
@@ -108,6 +115,32 @@ namespace LoxInterpreter
             // trim quotes
             string value = source.Substring(start + 1, current - start - 2);
             AddToken(TokenType.String, value);
+        }
+
+        private void ParseNumber()
+        {
+            while (IsDigit(Peek()))
+            {
+                Advance();
+            }
+
+            if (Peek() == '.' && IsDigit(PeekNext()))
+            {
+                // consume the .
+                Advance();
+
+                while (IsDigit(Peek()))
+                {
+                    Advance();
+                }
+            }
+
+            AddToken(TokenType.Number, double.Parse(source.Substring(start, current - start)));
+        }
+
+        private bool IsDigit(char c)
+        {
+            return c >= '0' && c <= '9';
         }
 
         private void AddToken(TokenType type)
@@ -146,6 +179,11 @@ namespace LoxInterpreter
         private char Peek()
         {
             return IsAtEnd() ? '\0' : source[current];
+        }
+
+        private char PeekNext()
+        {
+            return (current + 1 >= source.Length) ? '\0' : source[current + 1];
         }
     }
 }
