@@ -1,45 +1,68 @@
 namespace LoxInterpreter
 {
-	abstract class Expr
-	{
-	}
-	class BinaryExpr : Expr
-	{
-		public Expr Left { get; }
-		public Token Operator { get; }
-		public Expr Right { get; }
-		public BinaryExpr(Expr Left, Token Operator, Expr Right)
-		{
-			this.Left = Left;
-			this.Operator = Operator;
-			this.Right = Right;
-		}
-	}
-	class GroupingExpr : Expr
-	{
-		public Expr Expression { get; }
-		public GroupingExpr(Expr Expression)
-		{
-			this.Expression = Expression;
-		}
-	}
-	class LiteralExpr : Expr
-	{
-		public object Value { get; }
-		public LiteralExpr(object Value)
-		{
-			this.Value = Value;
-		}
-	}
-	class UnaryExpr : Expr
-	{
-		public Token Operator { get; }
-		public Expr Right { get; }
-		public UnaryExpr(Token Operator, Expr Right)
-		{
-			this.Operator = Operator;
-			this.Right = Right;
-		}
-	}
-
+    interface IVisitor<T>
+    {
+        T VisitBinaryExpr(BinaryExpr expr);
+        T VisitGroupingExpr(GroupingExpr expr);
+        T VisitLiteralExpr(LiteralExpr expr);
+        T VisitUnaryExpr(UnaryExpr expr);
+    }
+    abstract class Expr
+    {
+        public abstract T Accept<T>(IVisitor<T> visitor);
+    }
+    class BinaryExpr : Expr
+    {
+        public Expr Left { get; }
+        public Token Operator { get; }
+        public Expr Right { get; }
+        public BinaryExpr(Expr Left, Token Operator, Expr Right)
+        {
+            this.Left = Left;
+            this.Operator = Operator;
+            this.Right = Right;
+        }
+        public override T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.VisitBinaryExpr(this);
+        }
+    }
+    class GroupingExpr : Expr
+    {
+        public Expr Expression { get; }
+        public GroupingExpr(Expr Expression)
+        {
+            this.Expression = Expression;
+        }
+        public override T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.VisitGroupingExpr(this);
+        }
+    }
+    class LiteralExpr : Expr
+    {
+        public object Value { get; }
+        public LiteralExpr(object Value)
+        {
+            this.Value = Value;
+        }
+        public override T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.VisitLiteralExpr(this);
+        }
+    }
+    class UnaryExpr : Expr
+    {
+        public Token Operator { get; }
+        public Expr Right { get; }
+        public UnaryExpr(Token Operator, Expr Right)
+        {
+            this.Operator = Operator;
+            this.Right = Right;
+        }
+        public override T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.VisitUnaryExpr(this);
+        }
+    }
 }
