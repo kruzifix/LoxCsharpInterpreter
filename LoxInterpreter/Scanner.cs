@@ -86,6 +86,10 @@ namespace LoxInterpreter
                     {
                         ParseNumber();
                     }
+                    else if (IsAlpha(c))
+                    {
+                        ParseIdentifier();
+                    }
                     else
                     {
                         Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
@@ -105,7 +109,33 @@ namespace LoxInterpreter
             tokens.Add(new Token(type, text, literal, line));
         }
 
-#endregion
+        #endregion
+
+        #region Identifier
+
+        private void ParseIdentifier()
+        {
+            while (IsAlphaNumeric(Peek()))
+            {
+                Advance();
+            }
+
+            AddToken(TokenType.Identifier);
+        }
+
+        private bool IsAlpha(char c)
+        {
+            return (c >= 'a' && c <= 'z') ||
+                   (c >= 'A' && c <= 'Z') ||
+                   c == '_';
+        }
+
+        private bool IsAlphaNumeric(char c)
+        {
+            return IsAlpha(c) || IsDigit(c);
+        }
+
+        #endregion
 
         private void ParseString()
         {
