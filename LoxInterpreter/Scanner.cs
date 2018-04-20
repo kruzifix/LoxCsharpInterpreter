@@ -8,6 +8,8 @@ namespace LoxInterpreter
 {
     class Scanner
     {
+        #region Keywords
+
         private static Dictionary<string, TokenType> keywords;
 
         static Scanner()
@@ -30,6 +32,8 @@ namespace LoxInterpreter
             keywords.Add("var", TokenType.Var);
             keywords.Add("while", TokenType.While);
         }
+
+        #endregion
 
         private readonly string source;
         private List<Token> tokens;
