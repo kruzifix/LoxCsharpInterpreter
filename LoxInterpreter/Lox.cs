@@ -17,7 +17,7 @@ namespace LoxInterpreter
                 new GroupingExpr(new LiteralExpr(45.67)));
 
             Console.WriteLine(new AstPrinter().Print(e));
-            
+
             if (args.Length > 1)
             {
                 Console.WriteLine("Usage: cslox [script]");
@@ -68,6 +68,18 @@ namespace LoxInterpreter
         public static void Error(int line, string message)
         {
             Report(line, "", message);
+        }
+
+        public static void Error(Token token, string message)
+        {
+            if (token.Type == TokenType.Eof)
+            {
+                Report(token.Line, " at end", message);
+            }
+            else
+            {
+                Report(token.Line, "at '" + token.Lexeme + "'", message);
+            }
         }
 
         public static void Report(int line, string where, string message)
