@@ -20,6 +20,8 @@ namespace LoxInterpreter
             tokens = new List<Token>();
         }
 
+        #region Tokens
+
         public List<Token> ScanTokens()
         {
             while (!IsAtEnd())
@@ -92,6 +94,19 @@ namespace LoxInterpreter
             }
         }
 
+        private void AddToken(TokenType type)
+        {
+            AddToken(type, null);
+        }
+
+        private void AddToken(TokenType type, object literal)
+        {
+            string text = source.Substring(start, current - start);
+            tokens.Add(new Token(type, text, literal, line));
+        }
+
+#endregion
+
         private void ParseString()
         {
             while (Peek() != '"' && !IsAtEnd())
@@ -116,6 +131,8 @@ namespace LoxInterpreter
             string value = source.Substring(start + 1, current - start - 2);
             AddToken(TokenType.String, value);
         }
+
+        #region Number
 
         private void ParseNumber()
         {
@@ -143,16 +160,9 @@ namespace LoxInterpreter
             return c >= '0' && c <= '9';
         }
 
-        private void AddToken(TokenType type)
-        {
-            AddToken(type, null);
-        }
+        #endregion
 
-        private void AddToken(TokenType type, object literal)
-        {
-            string text = source.Substring(start, current - start);
-            tokens.Add(new Token(type, text, literal, line));
-        }
+        #region Control Flow
 
         private bool IsAtEnd()
         {
@@ -185,5 +195,7 @@ namespace LoxInterpreter
         {
             return (current + 1 >= source.Length) ? '\0' : source[current + 1];
         }
+
+        #endregion
     }
 }
