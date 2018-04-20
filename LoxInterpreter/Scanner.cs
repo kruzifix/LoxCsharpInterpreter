@@ -73,6 +73,15 @@ namespace LoxInterpreter
                     }
                     break;
 
+                case ' ':
+                case '\r':
+                case '\t':
+                    break;
+
+                case '\n':
+                    line++;
+                    break;
+
                 default:
                     Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
                     break;
