@@ -9,6 +9,15 @@ namespace LoxInterpreter
 
         static void Main(string[] args)
         {
+            var e = new BinaryExpr(
+                new UnaryExpr(
+                    new Token(TokenType.Minus, "-", null, 1),
+                    new LiteralExpr(123)),
+                new Token(TokenType.Star, "*", null, 1),
+                new GroupingExpr(new LiteralExpr(45.67)));
+
+            Console.WriteLine(new AstPrinter().Print(e));
+            
             if (args.Length > 1)
             {
                 Console.WriteLine("Usage: cslox [script]");
