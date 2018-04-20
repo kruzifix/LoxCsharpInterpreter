@@ -8,6 +8,29 @@ namespace LoxInterpreter
 {
     class Scanner
     {
+        private static Dictionary<string, TokenType> keywords;
+
+        static Scanner()
+        {
+            keywords = new Dictionary<string, TokenType>();
+            keywords.Add("and", TokenType.And);
+            keywords.Add("class", TokenType.Class);
+            keywords.Add("else", TokenType.Else);
+            keywords.Add("false", TokenType.False);
+            keywords.Add("for", TokenType.For);
+            keywords.Add("fun", TokenType.Fun);
+            keywords.Add("if", TokenType.If);
+            keywords.Add("nil", TokenType.Nil);
+            keywords.Add("or", TokenType.Or);
+            keywords.Add("print", TokenType.Print);
+            keywords.Add("return", TokenType.Return);
+            keywords.Add("super", TokenType.Super);
+            keywords.Add("this", TokenType.This);
+            keywords.Add("true", TokenType.True);
+            keywords.Add("var", TokenType.Var);
+            keywords.Add("while", TokenType.While);
+        }
+
         private readonly string source;
         private List<Token> tokens;
         private int start = 0;
@@ -120,7 +143,14 @@ namespace LoxInterpreter
                 Advance();
             }
 
-            AddToken(TokenType.Identifier);
+            string text = source.Substring(start, current - start);
+
+            TokenType type = TokenType.Identifier;
+            if (keywords.ContainsKey(text))
+            {
+                type = keywords[text];
+            }
+            AddToken(type);
         }
 
         private bool IsAlpha(char c)
