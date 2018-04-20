@@ -31,12 +31,7 @@ namespace LoxInterpreter
             tokens.Add(new Token(TokenType.Eof, "", null, line));
             return tokens;
         }
-
-        private bool IsAtEnd()
-        {
-            return current >= source.Length;
-        }
-
+        
         private void ScanToken()
         {
             char c = Advance();
@@ -82,16 +77,37 @@ namespace LoxInterpreter
                     line++;
                     break;
 
+                case '"': ParseString(); break;
+
                 default:
                     Lox.Error(line, string.Format("Unexpected character '{0}'.", c));
                     break;
             }
         }
 
-        private char Advance()
+        private void ParseString()
         {
-            current++;
-            return source[current];
+            while (Peek() != '"' && !IsAtEnd())
+            {
+                if (Peek() == '\n')
+                {
+                    line++;
+                }
+                Advance();
+            }
+
+            if (IsAtEnd())
+            {
+                Lox.Error(line, "Unterminated string.");
+                return;
+            }
+
+            // closing '
+            Advance();
+
+            // trim quotes
+            string value = source.Substring(start + 1, current - start - 2);
+            AddToken(TokenType.String, value);
         }
 
         private void AddToken(TokenType type)
@@ -101,8 +117,19 @@ namespace LoxInterpreter
 
         private void AddToken(TokenType type, object literal)
         {
-            string text = source.Substring(start, current - start + 1);
+            string text = source.Substring(start, current - start);
             tokens.Add(new Token(type, text, literal, line));
+        }
+
+        private bool IsAtEnd()
+        {
+            return current >= source.Length;
+        }
+
+        private char Advance()
+        {
+            current++;
+            return source[current- 1];
         }
 
         private bool Match(char expected)

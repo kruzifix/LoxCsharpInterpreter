@@ -39,7 +39,8 @@ namespace LoxInterpreter
             while (true)
             {
                 Console.Write("> ");
-                Run(Console.ReadLine());
+                string input = Console.ReadLine();
+                Run(input);
                 hadError = false;
             }
         }
