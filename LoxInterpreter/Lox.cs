@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LoxInterpreter
 {
-    class Program
+    class Lox
     {
         static bool hadError = false;
 
@@ -55,12 +55,12 @@ namespace LoxInterpreter
             }
         }
 
-        private static void Error(int line, string message)
+        public static void Error(int line, string message)
         {
             Report(line, "", message);
         }
 
-        private static void Report(int line, string where, string message)
+        public static void Report(int line, string where, string message)
         {
             Console.Error.WriteLine("[Line {0}] Error {1}: {2}", line, where, message);
             hadError = true;
