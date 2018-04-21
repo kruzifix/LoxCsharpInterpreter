@@ -63,6 +63,13 @@ namespace LoxInterpreter
             if (hadError)
                 return;
 
+            if (statements.Count == 1 && statements[0] is ExpressionStmt)
+            {
+                var result = interpreter.Evaluate((statements[0] as ExpressionStmt).Expression);
+                Console.WriteLine(Interpreter.Stringify(result));
+                return;
+            }
+
             interpreter.Interpret(statements);
         }
 

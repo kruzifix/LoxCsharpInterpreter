@@ -27,6 +27,13 @@ namespace LoxInterpreter
             }
         }
 
+        #region Statement Visitor
+
+        public void VisitBlockStmt(BlockStmt stmt)
+        {
+            ExecuteBlock(stmt.Statements, new Environment(environment));
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);
@@ -48,6 +55,10 @@ namespace LoxInterpreter
 
             environment.Define(stmt.Name.Lexeme, value);
         }
+
+        #endregion
+
+        #region Expression Visitor
 
         public object VisitAssignExpr(AssignExpr expr)
         {
@@ -138,7 +149,9 @@ namespace LoxInterpreter
             return environment.Get(expr.Name);
         }
 
-        private object Evaluate(Expr expr)
+        #endregion
+
+        public object Evaluate(Expr expr)
         {
             return expr.Accept(this);
         }
@@ -146,6 +159,24 @@ namespace LoxInterpreter
         private void Execute(Stmt stmt)
         {
             stmt.Accept(this);
+        }
+
+        private void ExecuteBlock(List<Stmt> statements, Environment environment)
+        {
+            Environment previous = this.environment;
+            try
+            {
+                this.environment = environment;
+
+                foreach (var stmt in statements)
+                {
+                    Execute(stmt);
+                }
+            }
+            finally
+            {
+                this.environment = previous;
+            }
         }
 
         private bool IsTruthy(object value)
@@ -168,7 +199,7 @@ namespace LoxInterpreter
             return left.Equals(right);
         }
 
-        private string Stringify(object value)
+        public static string Stringify(object value)
         {
             if (value == null)
                 return "nil";

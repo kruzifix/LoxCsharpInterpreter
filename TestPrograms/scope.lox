@@ -1,20 +1,32 @@
-{
-  var a = "first";
-  print a; // "first".
-}
-
-{
-  var a = "second";
-  print a; // "second".
-}
-
-{
-  var a = "in block";
-}
-print a; // Error! No more "a".
-
 var global = "outside";
 {
   var local = "inside";
   print global + local;
 }
+print "";
+
+var a = "global a";
+var b = "global b";
+var c = "global c";
+{
+  var a = "outer a";
+  var b = "outer b";
+  {
+    var a = "inner a";
+    print a;
+    print b;
+    print c;
+  }
+  print a;
+  print b;
+  print c;
+}
+print a;
+print b;
+print c;
+
+{
+  var abc = "in block";
+  print abc;
+}
+print abc; // Error! No more "a".

@@ -71,6 +71,8 @@ namespace LoxInterpreter
         private Stmt ExpressionStatement()
         {
             var expr = Expression();
+            if (!Check(TokenType.Semicolon))
+                return new ExpressionStmt(expr);
             Consume(TokenType.Semicolon, "Expected ';' after expression.");
             return new ExpressionStmt(expr);
         }
