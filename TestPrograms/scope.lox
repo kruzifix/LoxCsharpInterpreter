@@ -1,0 +1,20 @@
+{
+  var a = "first";
+  print a; // "first".
+}
+
+{
+  var a = "second";
+  print a; // "second".
+}
+
+{
+  var a = "in block";
+}
+print a; // Error! No more "a".
+
+var global = "outside";
+{
+  var local = "inside";
+  print global + local;
+}

@@ -1,0 +1,9 @@
+var a = 13;
+var b = "test";
+var c = a + b;
+print c;
+
+var t = 0;
+t = t + 1;
+t = t + 2;
+print t;
