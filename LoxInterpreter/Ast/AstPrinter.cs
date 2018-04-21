@@ -30,6 +30,11 @@ namespace LoxInterpreter
             return expr.Value.ToString();
         }
 
+        public string VisitLogicalExpr(LogicalExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitUnaryExpr(UnaryExpr expr)
         {
             return Parenthesize(expr.Operator.Lexeme, expr.Right);

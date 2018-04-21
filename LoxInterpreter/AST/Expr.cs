@@ -6,6 +6,7 @@ namespace LoxInterpreter
         T VisitBinaryExpr(BinaryExpr expr);
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
+        T VisitLogicalExpr(LogicalExpr expr);
         T VisitUnaryExpr(UnaryExpr expr);
         T VisitVariableExpr(VariableExpr expr);
     }
@@ -65,6 +66,22 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitLiteralExpr(this);
+        }
+    }
+    class LogicalExpr : Expr
+    {
+        public Expr Left { get; }
+        public Token Operator { get; }
+        public Expr Right { get; }
+        public LogicalExpr(Expr Left, Token Operator, Expr Right)
+        {
+            this.Left = Left;
+            this.Operator = Operator;
+            this.Right = Right;
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitLogicalExpr(this);
         }
     }
     class UnaryExpr : Expr

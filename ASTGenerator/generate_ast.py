@@ -97,6 +97,12 @@ defineTypedAst('Expr', [
     [
         ('object', 'Value')
     ]),
+    ('Logical',
+    [
+        ('Expr', 'Left'),
+        ('Token', 'Operator'),
+        ('Expr', 'Right')
+    ]),
     ('Unary',
     [
         ('Token', 'Operator'),
