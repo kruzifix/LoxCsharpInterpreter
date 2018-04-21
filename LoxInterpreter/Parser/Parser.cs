@@ -132,7 +132,11 @@ namespace LoxInterpreter
             Consume(TokenType.LeftParen, "Expected '(' after 'while'.");
             var condition = Expression();
             Consume(TokenType.RightParen, "Expected ')' after while condition.");
+            // add 1 to loop depth
             var body = Statement();
+            // remove 1 from loop depth
+
+            // error if break/continue exist if loop depth == 0
 
             return new WhileStmt(condition, body);
         }

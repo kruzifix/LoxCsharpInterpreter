@@ -72,6 +72,9 @@ namespace LoxInterpreter
         {
             while (IsTruthy(Evaluate(stmt.Condition)))
             {
+                // break/continue statement
+                // throw abort/continue loop exception
+                // catch here!
                 Execute(stmt.Body);
             }
         }
