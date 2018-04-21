@@ -199,16 +199,6 @@ namespace LoxInterpreter
             return left.Equals(right);
         }
 
-        public static string Stringify(object value)
-        {
-            if (value == null)
-                return "nil";
-            if (value is bool)
-                return value.ToString().ToLower();
-
-            return value.ToString();
-        }
-
         private void CheckNumberOperand(Token op, object operand)
         {
             if (operand is double)
@@ -221,6 +211,16 @@ namespace LoxInterpreter
             if (right is double && left is double)
                 return;
             throw new RuntimeError(op, "Operands must be numbers.");
+        }
+
+        public static string Stringify(object value)
+        {
+            if (value == null)
+                return "nil";
+            if (value is bool)
+                return value.ToString().ToLower();
+
+            return value.ToString();
         }
     }
 }
