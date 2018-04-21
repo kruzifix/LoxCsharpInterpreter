@@ -54,11 +54,29 @@ namespace LoxInterpreter
 
         private Stmt Statement()
         {
+            if (Match(TokenType.If))
+                return IfStatement();
             if (Match(TokenType.Print))
                 return PrintStatement();
             if (Match(TokenType.LeftBrace))
                 return new BlockStmt(Block());
             return ExpressionStatement();
+        }
+
+        private Stmt IfStatement()
+        {
+            Consume(TokenType.LeftParen, "Expected '(' after 'if'.");
+            var condition = Expression();
+            Consume(TokenType.RightParen, "Expected ')' after if condition.");
+
+            var thenBranch = Statement();
+            Stmt elseBranch = null;
+            if (Match(TokenType.LeftParen))
+            {
+                elseBranch = Statement();
+            }
+
+            return new IfStmt(condition, thenBranch, elseBranch);
         }
 
         private Stmt PrintStatement()

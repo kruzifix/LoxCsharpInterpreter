@@ -41,7 +41,14 @@ namespace LoxInterpreter
 
         public void VisitIfStmt(IfStmt stmt)
         {
-            throw new NotImplementedException();
+            if (IsTruthy(stmt.Condition))
+            {
+                Execute(stmt.ThenBranch);
+            }
+            else if (stmt.ElseBranch != null)
+            {
+                Execute(stmt.ElseBranch);
+            }
         }
 
         public void VisitPrintStmt(PrintStmt stmt)
