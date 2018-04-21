@@ -1,7 +1,22 @@
-﻿namespace LoxInterpreter
+﻿using System;
+
+namespace LoxInterpreter
 {
     class Interpreter : IVisitor<object>
     {
+        public void Interpret(Expr expr)
+        {
+            try
+            {
+                var value = Evaluate(expr);
+                Console.WriteLine(Stringify(value));
+            }
+            catch (RuntimeError e)
+            {
+                Lox.RuntimeError(e);
+            }
+        }
+
         public object VisitBinaryExpr(BinaryExpr expr)
         {
             var left = Evaluate(expr.Left);
@@ -10,12 +25,16 @@
             switch (expr.Operator.Type)
             {
                 case TokenType.Greater:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left > (double)right;
                 case TokenType.GreaterEqual:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left >= (double)right;
                 case TokenType.Less:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left < (double)right;
                 case TokenType.LessEqual:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left <= (double)right;
 
                 case TokenType.BangEqual:
@@ -24,16 +43,19 @@
                     return IsEqual(left, right);
 
                 case TokenType.Minus:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left - (double)right;
                 case TokenType.Plus:
                     if (left is double && right is double)
                         return (double)left + (double)right;
                     if (left is string && right is string)
                         return (string)left + (string)right;
-                    break;
+                    throw new RuntimeError(expr.Operator, "Operands must be two numbers or two strings.");
                 case TokenType.Slash:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left / (double)right;
                 case TokenType.Star:
+                    CheckNumberOperands(expr.Operator, left, right);
                     return (double)left * (double)right;
             }
 
@@ -60,13 +82,14 @@
                 case TokenType.Bang:
                     return !IsTruthy(right);
                 case TokenType.Minus:
+                    CheckNumberOperand(expr.Operator, right);
                     return -(double)right;
             }
 
             // unreachable
             return null;
         }
-
+        
         private object Evaluate(Expr expr)
         {
             return expr.Accept(this);
@@ -90,6 +113,28 @@
                 return false;
 
             return left.Equals(right);
+        }
+
+        private string Stringify(object value)
+        {
+            if (value == null)
+                return "nil";
+
+            return value.ToString();
+        }
+
+        private void CheckNumberOperand(Token op, object operand)
+        {
+            if (operand is double)
+                return;
+            throw new RuntimeError(op, "Operand must be a number.");
+        }
+
+        private void CheckNumberOperands(Token op, object right, object left)
+        {
+            if (right is double && left is double)
+                return;
+            throw new RuntimeError(op, "Operands must be a numbers.");
         }
     }
 }
