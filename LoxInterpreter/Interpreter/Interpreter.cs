@@ -2,7 +2,7 @@
 
 namespace LoxInterpreter
 {
-    class Interpreter : IVisitor<object>
+    class Interpreter : IExprVisitor<object>
     {
         public void Interpret(Expr expr)
         {

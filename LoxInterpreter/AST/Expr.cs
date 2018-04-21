@@ -1,6 +1,6 @@
 namespace LoxInterpreter
 {
-    interface IVisitor<T>
+    interface IExprVisitor<T>
     {
         T VisitBinaryExpr(BinaryExpr expr);
         T VisitGroupingExpr(GroupingExpr expr);
@@ -9,7 +9,7 @@ namespace LoxInterpreter
     }
     abstract class Expr
     {
-        public abstract T Accept<T>(IVisitor<T> visitor);
+        public abstract T Accept<T>(IExprVisitor<T> visitor);
     }
     class BinaryExpr : Expr
     {
@@ -22,7 +22,7 @@ namespace LoxInterpreter
             this.Operator = Operator;
             this.Right = Right;
         }
-        public override T Accept<T>(IVisitor<T> visitor)
+        public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitBinaryExpr(this);
         }
@@ -34,7 +34,7 @@ namespace LoxInterpreter
         {
             this.Expression = Expression;
         }
-        public override T Accept<T>(IVisitor<T> visitor)
+        public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitGroupingExpr(this);
         }
@@ -46,7 +46,7 @@ namespace LoxInterpreter
         {
             this.Value = Value;
         }
-        public override T Accept<T>(IVisitor<T> visitor)
+        public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitLiteralExpr(this);
         }
@@ -60,7 +60,7 @@ namespace LoxInterpreter
             this.Operator = Operator;
             this.Right = Right;
         }
-        public override T Accept<T>(IVisitor<T> visitor)
+        public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitUnaryExpr(this);
         }

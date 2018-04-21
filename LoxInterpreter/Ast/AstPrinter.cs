@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace LoxInterpreter
 {
-    class AstPrinter : IVisitor<string>
+    class AstPrinter : IExprVisitor<string>
     {
         public string Print(Expr expr)
         {
