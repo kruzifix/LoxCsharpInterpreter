@@ -1,0 +1,57 @@
+{
+    var height = 10;
+    var y = 0;
+    while (y < height)
+    {
+        var line = "";
+        var i = 0;
+        while (i < 10 - y) {
+            line = line + " ";
+            i = i + 1
+        }
+            
+        i = 0;
+        while (i < 1 + 2 * y) {
+            if (i > 0 and i < 2 * y)
+                line = line + "-";
+            else
+                line = line + "*";
+            i = i + 1;
+        }
+        
+        print line;
+        y = y + 1;
+    }
+    
+    var x = 0;
+    while (x < 3) {
+        var line = "";
+        var s = 0;
+        while (s < height - 1) {
+            line = line + " ";
+            s = s + 1;
+        }
+        line = line + "|||";
+        print line;
+        x = x + 1;
+    }
+}
+{
+    var height = 10;
+    for (var y = 0; y < height; y = y + 1)
+    {
+        var line = "";
+        for (var i = 0; i < 10 - y; i = i + 1)
+            line = line + " ";
+
+        for (var i = 0; i < 1 + 2 * y; i = i + 1)
+        {
+            if (i > 0 and i < 2 * y)
+                line = line + "-";
+            else
+                line = line + "*";
+        }
+
+        print line;
+    }
+}

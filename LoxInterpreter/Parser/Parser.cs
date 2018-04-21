@@ -54,6 +54,8 @@ namespace LoxInterpreter
 
         private Stmt Statement()
         {
+            if (Match(TokenType.For))
+                return ForStatement();
             if (Match(TokenType.If))
                 return IfStatement();
             if (Match(TokenType.Print))
@@ -63,6 +65,43 @@ namespace LoxInterpreter
             if (Match(TokenType.LeftBrace))
                 return new BlockStmt(Block());
             return ExpressionStatement();
+        }
+
+        private Stmt ForStatement()
+        {
+            Consume(TokenType.LeftParen, "Expect '(' after 'for'.");
+
+            Stmt initializer;
+            if (Match(TokenType.Semicolon))
+                initializer = null;
+            else if (Match(TokenType.Var))
+                initializer = VarDeclaration();
+            else
+                initializer = ExpressionStatement();
+
+            Expr condition = null;
+            if (!Check(TokenType.Semicolon))
+                condition = Expression();
+            Consume(TokenType.Semicolon, "Expect ';' after loop condition.");
+
+            Expr increment = null;
+            if (!Check(TokenType.RightParen))
+                increment = Expression();
+            Consume(TokenType.RightParen, "Expect ')' after for clauses.");
+
+            var body = Statement();
+
+            if (increment != null)
+                body = new BlockStmt(new List<Stmt> { body, new ExpressionStmt(increment) });
+
+            if (condition == null)
+                condition = new LiteralExpr(true);
+            body = new WhileStmt(condition, body);
+
+            if (initializer != null)
+                body = new BlockStmt(new List<Stmt> { initializer, body });
+
+            return body;
         }
 
         private Stmt IfStatement()
