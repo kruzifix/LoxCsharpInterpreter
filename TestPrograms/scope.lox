@@ -25,6 +25,16 @@ print a;
 print b;
 print c;
 
+print "";
+
+var x = 1;
+{
+  var x = x + 2;
+  print "x = " + x;
+}
+
+print "";
+
 {
   var abc = "in block";
   print abc;
