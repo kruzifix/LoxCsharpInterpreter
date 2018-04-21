@@ -13,16 +13,37 @@ namespace LoxInterpreter
             this.tokens = tokens;
         }
 
-        public Expr Parse()
+        public List<Stmt> Parse()
         {
-            try
+            var statements = new List<Stmt>();
+            if (!IsAtEnd())
             {
-                return Expression();
+                statements.Add(Statement());
             }
-            catch (ParseError e)
+            return statements;
+        }
+
+        private Stmt Statement()
+        {
+            if (Match(TokenType.Print))
             {
-                return null;
+                return PrintStatement();
             }
+            return ExpressionStatement();
+        }
+
+        private Stmt PrintStatement()
+        {
+            var value = Expression();
+            Consume(TokenType.Semicolon, "Expected ';' after value.");
+            return new PrintStmt(value);
+        }
+
+        private Stmt ExpressionStatement()
+        {
+            var expr = Expression();
+            Consume(TokenType.Semicolon, "Expected ';' after expression.");
+            return new ExpressionStmt(expr);
         }
 
         private Expr Expression()
