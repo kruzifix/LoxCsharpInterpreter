@@ -102,6 +102,7 @@ defineTypedAst('Expr', [
 ])
 
 defineAst('Stmt', [
+    ('Block', [('List<Stmt>', 'Statements')]),
     ('Expression', [('Expr', 'Expression')]),
     ('Print', [('Expr', 'Expression')]),
     ('Var', [('Token', 'Name'), ('Expr', 'Initializer')])

@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+
 namespace LoxInterpreter
 {
     interface IStmtVisitor
     {
+        void VisitBlockStmt(BlockStmt stmt);
         void VisitExpressionStmt(ExpressionStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
         void VisitVarStmt(VarStmt stmt);
@@ -9,6 +12,18 @@ namespace LoxInterpreter
     abstract class Stmt
     {
         public abstract void Accept(IStmtVisitor visitor);
+    }
+    class BlockStmt : Stmt
+    {
+        public List<Stmt> Statements { get; }
+        public BlockStmt(List<Stmt> Statements)
+        {
+            this.Statements = Statements;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitBlockStmt(this);
+        }
     }
     class ExpressionStmt : Stmt
     {

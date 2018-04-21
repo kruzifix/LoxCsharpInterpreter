@@ -55,9 +55,9 @@ namespace LoxInterpreter
         private Stmt Statement()
         {
             if (Match(TokenType.Print))
-            {
                 return PrintStatement();
-            }
+            if (Match(TokenType.LeftBrace))
+                return new BlockStmt(Block());
             return ExpressionStatement();
         }
 
@@ -73,6 +73,19 @@ namespace LoxInterpreter
             var expr = Expression();
             Consume(TokenType.Semicolon, "Expected ';' after expression.");
             return new ExpressionStmt(expr);
+        }
+
+        private List<Stmt> Block()
+        {
+            var statements = new List<Stmt>();
+
+            while (!Check(TokenType.RightBrace) && !IsAtEnd())
+            {
+                statements.Add(Declaration());
+            }
+
+            Consume(TokenType.RightBrace, "Expected '}' after block.");
+            return statements;
         }
 
         private Expr Expression()
