@@ -4,6 +4,7 @@ namespace LoxInterpreter
     {
         void VisitExpressionStmt(ExpressionStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
+        void VisitVarStmt(VarStmt stmt);
     }
     abstract class Stmt
     {
@@ -31,6 +32,20 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitPrintStmt(this);
+        }
+    }
+    class VarStmt : Stmt
+    {
+        public Token Name { get; }
+        public Expr Initializer { get; }
+        public VarStmt(Token Name, Expr Initializer)
+        {
+            this.Name = Name;
+            this.Initializer = Initializer;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitVarStmt(this);
         }
     }
 }

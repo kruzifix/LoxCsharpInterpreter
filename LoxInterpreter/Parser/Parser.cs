@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LoxInterpreter
 {
@@ -18,17 +17,39 @@ namespace LoxInterpreter
             var statements = new List<Stmt>();
             while (!IsAtEnd())
             {
-                try
-                {
-                    var stmt = Statement();
-                    statements.Add(stmt);
-                }
-                catch (ParseError e)
-                {
-                    break;
-                }
+                statements.Add(Declaration());
             }
             return statements;
+        }
+
+        private Stmt Declaration()
+        {
+            try
+            {
+                if (Match(TokenType.Var))
+                {
+                    return VarDeclaration();
+                }
+
+                return Statement();
+            }
+            catch (ParseError)
+            {
+                Synchronize();
+                return null;
+            }
+        }
+
+        private Stmt VarDeclaration()
+        {
+            var name = Consume(TokenType.Identifier, "Expected variable name.");
+
+            Expr initializer = null;
+            if (Match(TokenType.Equal))
+                initializer = Expression();
+
+            Consume(TokenType.Semicolon, "Expected ';' after variable declaration.");
+            return new VarStmt(name, initializer);
         }
 
         private Stmt Statement()
@@ -136,6 +157,11 @@ namespace LoxInterpreter
             if (Match(TokenType.Number, TokenType.String))
             {
                 return new LiteralExpr(Previous().Literal);
+            }
+
+            if (Match(TokenType.Identifier))
+            {
+                return new VariableExpr(Previous());
             }
 
             if (Match(TokenType.LeftParen))

@@ -6,6 +6,7 @@ namespace LoxInterpreter
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
         T VisitUnaryExpr(UnaryExpr expr);
+        T VisitVariableExpr(VariableExpr expr);
     }
     abstract class Expr
     {
@@ -63,6 +64,18 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitUnaryExpr(this);
+        }
+    }
+    class VariableExpr : Expr
+    {
+        public Token Name { get; }
+        public VariableExpr(Token Name)
+        {
+            this.Name = Name;
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitVariableExpr(this);
         }
     }
 }

@@ -30,6 +30,11 @@ namespace LoxInterpreter
             return Parenthesize(expr.Operator.Lexeme, expr.Right);
         }
 
+        public string VisitVariableExpr(VariableExpr expr)
+        {
+            return Parenthesize("var", expr);
+        }
+
         private string Parenthesize(string name, params Expr[] expr)
         {
             var sb = new StringBuilder();

@@ -89,10 +89,15 @@ defineTypedAst('Expr', [
     [
         ('Token', 'Operator'),
         ('Expr', 'Right')
+    ]),
+    ('Variable',
+    [
+        ('Token', 'Name')
     ])
 ])
 
 defineAst('Stmt', [
     ('Expression', [('Expr', 'Expression')]),
     ('Print', [('Expr', 'Expression')]),
+    ('Var', [('Token', 'Name'), ('Expr', 'Initializer')])
 ])

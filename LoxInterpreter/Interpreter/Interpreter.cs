@@ -31,6 +31,11 @@ namespace LoxInterpreter
             Console.WriteLine(Stringify(value));
         }
 
+        public void VisitVarStmt(VarStmt stmt)
+        {
+            throw new NotImplementedException();
+        }
+
         public object VisitBinaryExpr(BinaryExpr expr)
         {
             var left = Evaluate(expr.Left);
@@ -107,7 +112,12 @@ namespace LoxInterpreter
             // unreachable
             return null;
         }
-        
+
+        public object VisitVariableExpr(VariableExpr expr)
+        {
+            throw new NotImplementedException();
+        }
+
         private object Evaluate(Expr expr)
         {
             return expr.Accept(this);
