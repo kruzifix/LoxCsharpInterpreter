@@ -71,6 +71,11 @@ def defineAst(baseClass, classes):
         f.write("}")
 
 defineTypedAst('Expr', [
+    ('Assign',
+    [
+        ('Token', 'Name'),
+        ('Expr', 'Value')
+    ]),
     ('Binary', 
     [ # members
         ('Expr', 'Left'),

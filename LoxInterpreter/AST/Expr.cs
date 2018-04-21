@@ -2,6 +2,7 @@ namespace LoxInterpreter
 {
     interface IExprVisitor<T>
     {
+        T VisitAssignExpr(AssignExpr expr);
         T VisitBinaryExpr(BinaryExpr expr);
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
@@ -11,6 +12,20 @@ namespace LoxInterpreter
     abstract class Expr
     {
         public abstract T Accept<T>(IExprVisitor<T> visitor);
+    }
+    class AssignExpr : Expr
+    {
+        public Token Name { get; }
+        public Expr Value { get; }
+        public AssignExpr(Token Name, Expr Value)
+        {
+            this.Name = Name;
+            this.Value = Value;
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitAssignExpr(this);
+        }
     }
     class BinaryExpr : Expr
     {
