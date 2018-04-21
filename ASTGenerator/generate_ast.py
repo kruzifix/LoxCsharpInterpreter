@@ -1,6 +1,6 @@
 targetDir = '../LoxInterpreter/AST/'
 
-def defineAst(baseClass, classes):
+def defineTypedAst(baseClass, classes):
     with open(f"{targetDir}{baseClass}.cs", 'w') as f:
         f.write("namespace LoxInterpreter\n{\n")
         
@@ -35,7 +35,42 @@ def defineAst(baseClass, classes):
             f.write("    }\n")
         f.write("}")
 
-defineAst('Expr', [
+def defineAst(baseClass, classes):
+    with open(f"{targetDir}{baseClass}.cs", 'w') as f:
+        f.write("namespace LoxInterpreter\n{\n")
+        
+        f.write(f"    interface I{baseClass}Visitor\n    {{\n")
+        for className, members in classes:
+            f.write(f"        void Visit{className}{baseClass}({className}{baseClass} {baseClass.lower()});\n")
+        f.write("    }\n")
+
+        f.write(f"    abstract class {baseClass}\n    {{\n")
+        f.write(f"        public abstract void Accept(I{baseClass}Visitor visitor);\n")
+        f.write("    }\n")
+
+        for className, members in classes:
+            f.write(f"    class {className}{baseClass} : {baseClass}\n    {{\n")
+            # members
+            for varType, varName in members:
+                f.write(f"        public {varType} {varName} {{ get; }}\n")
+            # constructor
+            params = ', '.join([t + ' ' + n for t, n in members])
+            f.write(f"        public {className}{baseClass}({params})\n        {{\n")
+
+            for varType, varName in members:
+                f.write(f"            this.{varName} = {varName};\n")
+
+            f.write("        }\n")
+
+            # accept method
+            f.write(f"        public override void Accept(I{baseClass}Visitor visitor)\n        {{\n")
+            f.write(f"            visitor.Visit{className}{baseClass}(this);\n")
+            f.write("        }\n")
+
+            f.write("    }\n")
+        f.write("}")
+
+defineTypedAst('Expr', [
     ('Binary', 
     [ # members
         ('Expr', 'Left'),

@@ -1,20 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LoxInterpreter
 {
-    class Interpreter : IExprVisitor<object>
+    class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
-        public void Interpret(Expr expr)
+        public void Interpret(List<Stmt> statements)
         {
             try
             {
-                var value = Evaluate(expr);
-                Console.WriteLine(Stringify(value));
+                foreach (var stmt in statements)
+                {
+                    Execute(stmt);
+                }
             }
             catch (RuntimeError e)
             {
                 Lox.RuntimeError(e);
             }
+        }
+
+        public void VisitExpressionStmt(ExpressionStmt stmt)
+        {
+            Evaluate(stmt.Expression);
+        }
+
+        public void VisitPrintStmt(PrintStmt stmt)
+        {
+            var value = Evaluate(stmt.Expression);
+            Console.WriteLine(Stringify(value));
         }
 
         public object VisitBinaryExpr(BinaryExpr expr)
@@ -97,6 +111,11 @@ namespace LoxInterpreter
         private object Evaluate(Expr expr)
         {
             return expr.Accept(this);
+        }
+
+        private void Execute(Stmt stmt)
+        {
+            stmt.Accept(this);
         }
 
         private bool IsTruthy(object value)

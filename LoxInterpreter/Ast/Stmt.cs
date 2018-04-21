@@ -1,13 +1,13 @@
 namespace LoxInterpreter
 {
-    interface IStmtVisitor<T>
+    interface IStmtVisitor
     {
-        T VisitExpressionStmt(ExpressionStmt stmt);
-        T VisitPrintStmt(PrintStmt stmt);
+        void VisitExpressionStmt(ExpressionStmt stmt);
+        void VisitPrintStmt(PrintStmt stmt);
     }
     abstract class Stmt
     {
-        public abstract T Accept<T>(IStmtVisitor<T> visitor);
+        public abstract void Accept(IStmtVisitor visitor);
     }
     class ExpressionStmt : Stmt
     {
@@ -16,9 +16,9 @@ namespace LoxInterpreter
         {
             this.Expression = Expression;
         }
-        public override T Accept<T>(IStmtVisitor<T> visitor)
+        public override void Accept(IStmtVisitor visitor)
         {
-            return visitor.VisitExpressionStmt(this);
+            visitor.VisitExpressionStmt(this);
         }
     }
     class PrintStmt : Stmt
@@ -28,9 +28,9 @@ namespace LoxInterpreter
         {
             this.Expression = Expression;
         }
-        public override T Accept<T>(IStmtVisitor<T> visitor)
+        public override void Accept(IStmtVisitor visitor)
         {
-            return visitor.VisitPrintStmt(this);
+            visitor.VisitPrintStmt(this);
         }
     }
 }
