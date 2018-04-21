@@ -119,7 +119,8 @@ defineAst('Stmt', [
     ('Expression', [('Expr', 'Expression')]),
     ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),
     ('Print', [('Expr', 'Expression')]),
-    ('Var', [('Token', 'Name'), ('Expr', 'Initializer')])
+    ('Var', [('Token', 'Name'), ('Expr', 'Initializer')]),
+    ('While', [('Expr', 'Condition'), ('Stmt', 'Body')])
 ], ['System.Collections.Generic'])
 
 print("generated code successfully.")

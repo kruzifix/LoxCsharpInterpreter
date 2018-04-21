@@ -68,6 +68,14 @@ namespace LoxInterpreter
             environment.Define(stmt.Name.Lexeme, value);
         }
 
+        public void VisitWhileStmt(WhileStmt stmt)
+        {
+            while (IsTruthy(Evaluate(stmt.Condition)))
+            {
+                Execute(stmt.Body);
+            }
+        }
+
         #endregion
 
         #region Expression Visitor

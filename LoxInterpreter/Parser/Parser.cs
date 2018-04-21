@@ -58,6 +58,8 @@ namespace LoxInterpreter
                 return IfStatement();
             if (Match(TokenType.Print))
                 return PrintStatement();
+            if (Match(TokenType.While))
+                return WhileStatement();
             if (Match(TokenType.LeftBrace))
                 return new BlockStmt(Block());
             return ExpressionStatement();
@@ -84,6 +86,16 @@ namespace LoxInterpreter
             var value = Expression();
             Consume(TokenType.Semicolon, "Expected ';' after value.");
             return new PrintStmt(value);
+        }
+
+        private Stmt WhileStatement()
+        {
+            Consume(TokenType.LeftParen, "Expected '(' after 'while'.");
+            var condition = Expression();
+            Consume(TokenType.RightParen, "Expected ')' after while condition.");
+            var body = Statement();
+
+            return new WhileStmt(condition, body);
         }
 
         private Stmt ExpressionStatement()

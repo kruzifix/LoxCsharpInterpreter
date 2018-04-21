@@ -8,6 +8,7 @@ namespace LoxInterpreter
         void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
         void VisitVarStmt(VarStmt stmt);
+        void VisitWhileStmt(WhileStmt stmt);
     }
     abstract class Stmt
     {
@@ -77,6 +78,20 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitVarStmt(this);
+        }
+    }
+    class WhileStmt : Stmt
+    {
+        public Expr Condition { get; }
+        public Stmt Body { get; }
+        public WhileStmt(Expr Condition, Stmt Body)
+        {
+            this.Condition = Condition;
+            this.Body = Body;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitWhileStmt(this);
         }
     }
 }
