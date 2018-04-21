@@ -1,0 +1,22 @@
+var first = true;
+var second = false;
+
+if (first)
+    if (second)
+        print "whenTrue";
+    else
+        print "whenFalse";
+        
+if (first)
+{
+    print "first!";
+    print "first2!";
+}
+
+if (second)
+{
+    print "x";
+} else {
+    print "else!";
+    print "else2!";
+}

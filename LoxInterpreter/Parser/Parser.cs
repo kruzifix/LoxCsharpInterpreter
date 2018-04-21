@@ -71,7 +71,7 @@ namespace LoxInterpreter
 
             var thenBranch = Statement();
             Stmt elseBranch = null;
-            if (Match(TokenType.LeftParen))
+            if (Match(TokenType.Else))
             {
                 elseBranch = Statement();
             }

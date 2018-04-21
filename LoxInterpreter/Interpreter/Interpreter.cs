@@ -41,7 +41,7 @@ namespace LoxInterpreter
 
         public void VisitIfStmt(IfStmt stmt)
         {
-            if (IsTruthy(stmt.Condition))
+            if (IsTruthy(Evaluate(stmt.Condition)))
             {
                 Execute(stmt.ThenBranch);
             }
