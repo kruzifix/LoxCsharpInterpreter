@@ -91,7 +91,7 @@ namespace LoxInterpreter
 
         public static void RuntimeError(RuntimeError error)
         {
-            Console.Error.WriteLine("[line {0}] {1}", error.Token.Line, error.Message);
+            Console.Error.WriteLine("[line {0}] RuntimeError: {1}", error.Token.Line, error.Message);
             hadRuntimeError = true;
         }
     }

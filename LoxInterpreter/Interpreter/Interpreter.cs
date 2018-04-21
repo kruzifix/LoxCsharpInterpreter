@@ -50,7 +50,11 @@ namespace LoxInterpreter
                         return (double)left + (double)right;
                     if (left is string && right is string)
                         return (string)left + (string)right;
-                    throw new RuntimeError(expr.Operator, "Operands must be two numbers or two strings.");
+                    if (left is string)
+                        return (string)left + Stringify(right);
+                    if (right is string)
+                        return Stringify(left) + (string)right;
+                    throw new RuntimeError(expr.Operator, "Operands must be two numbers or at least one string.");
                 case TokenType.Slash:
                     CheckNumberOperands(expr.Operator, left, right);
                     return (double)left / (double)right;
@@ -136,7 +140,7 @@ namespace LoxInterpreter
         {
             if (right is double && left is double)
                 return;
-            throw new RuntimeError(op, "Operands must be a numbers.");
+            throw new RuntimeError(op, "Operands must be numbers.");
         }
     }
 }
