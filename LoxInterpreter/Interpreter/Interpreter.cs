@@ -5,6 +5,13 @@ namespace LoxInterpreter
 {
     class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
+        private Environment environment;
+
+        public Interpreter()
+        {
+            environment = new Environment();
+        }
+
         public void Interpret(List<Stmt> statements)
         {
             try
@@ -33,7 +40,13 @@ namespace LoxInterpreter
 
         public void VisitVarStmt(VarStmt stmt)
         {
-            throw new NotImplementedException();
+            object value = null;
+            if (stmt.Initializer != null)
+            {
+                value = Evaluate(stmt.Initializer);
+            }
+
+            environment.Define(stmt.Name.Lexeme, value);
         }
 
         public object VisitBinaryExpr(BinaryExpr expr)
@@ -115,7 +128,7 @@ namespace LoxInterpreter
 
         public object VisitVariableExpr(VariableExpr expr)
         {
-            throw new NotImplementedException();
+            return environment.Get(expr.Name);
         }
 
         private object Evaluate(Expr expr)

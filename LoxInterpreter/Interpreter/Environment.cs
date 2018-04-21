@@ -11,12 +11,12 @@ namespace LoxInterpreter
             values = new Dictionary<string, object>();
         }
 
-        void Define(string name, object value)
+        public void Define(string name, object value)
         {
             values.Add(name, value);
         }
 
-        object Get(Token name)
+        public object Get(Token name)
         {
             if (values.ContainsKey(name.Lexeme))
             {
