@@ -119,6 +119,8 @@ namespace LoxInterpreter
         {
             if (value == null)
                 return "nil";
+            if (value is bool)
+                return value.ToString().ToLower();
 
             return value.ToString();
         }
