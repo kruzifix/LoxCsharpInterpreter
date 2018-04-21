@@ -8,6 +8,11 @@ namespace LoxInterpreter
         {
             return expr.Accept(this);
         }
+        
+        public string VisitAssignExpr(AssignExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public string VisitBinaryExpr(BinaryExpr expr)
         {

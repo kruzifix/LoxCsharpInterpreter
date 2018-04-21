@@ -49,6 +49,13 @@ namespace LoxInterpreter
             environment.Define(stmt.Name.Lexeme, value);
         }
 
+        public object VisitAssignExpr(AssignExpr expr)
+        {
+            var value = Evaluate(expr.Value);
+            environment.Assign(expr.Name, value);
+            return value;
+        }
+
         public object VisitBinaryExpr(BinaryExpr expr)
         {
             var left = Evaluate(expr.Left);
