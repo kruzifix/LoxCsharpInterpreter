@@ -16,9 +16,17 @@ namespace LoxInterpreter
         public List<Stmt> Parse()
         {
             var statements = new List<Stmt>();
-            if (!IsAtEnd())
+            while (!IsAtEnd())
             {
-                statements.Add(Statement());
+                try
+                {
+                    var stmt = Statement();
+                    statements.Add(stmt);
+                }
+                catch (ParseError e)
+                {
+                    break;
+                }
             }
             return statements;
         }

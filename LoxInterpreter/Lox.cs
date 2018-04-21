@@ -58,12 +58,12 @@ namespace LoxInterpreter
             var tokens = scanner.ScanTokens();
             var parser = new Parser(tokens);
 
-            var expr = parser.Parse();
+            var statements = parser.Parse();
 
             if (hadError)
                 return;
 
-            interpreter.Interpret(expr);
+            interpreter.Interpret(statements);
         }
 
         public static void Error(int line, string message)
