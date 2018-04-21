@@ -1,4 +1,9 @@
-targetDir = '../LoxInterpreter/AST/'
+import sys
+
+targetDir = ''
+if len(sys.argv) >= 1:
+    targetDir = sys.argv[1]
+    print(f"targetDir: {targetDir}")
 
 def defineTypedAst(baseClass, classes):
     with open(f"{targetDir}{baseClass}.cs", 'w') as f:
@@ -35,8 +40,10 @@ def defineTypedAst(baseClass, classes):
             f.write("    }\n")
         f.write("}")
 
-def defineAst(baseClass, classes):
+def defineAst(baseClass, classes, namespaces = []):
     with open(f"{targetDir}{baseClass}.cs", 'w') as f:
+        for n in namespaces:
+            f.write(f"using {n};\n")
         f.write("namespace LoxInterpreter\n{\n")
         
         f.write(f"    interface I{baseClass}Visitor\n    {{\n")
@@ -104,6 +111,9 @@ defineTypedAst('Expr', [
 defineAst('Stmt', [
     ('Block', [('List<Stmt>', 'Statements')]),
     ('Expression', [('Expr', 'Expression')]),
+    ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),
     ('Print', [('Expr', 'Expression')]),
     ('Var', [('Token', 'Name'), ('Expr', 'Initializer')])
-])
+], ['System.Collections.Generic'])
+
+print("generated code successfully.")

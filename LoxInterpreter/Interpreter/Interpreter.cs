@@ -39,6 +39,11 @@ namespace LoxInterpreter
             Evaluate(stmt.Expression);
         }
 
+        public void VisitIfStmt(IfStmt stmt)
+        {
+            throw new NotImplementedException();
+        }
+
         public void VisitPrintStmt(PrintStmt stmt)
         {
             var value = Evaluate(stmt.Expression);

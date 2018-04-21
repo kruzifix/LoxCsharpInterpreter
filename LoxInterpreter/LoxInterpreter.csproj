@@ -88,4 +88,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>python.exe $(SolutionDir)..\ASTGenerator\generate_ast.py $(SolutionDir)\Ast\</PreBuildEvent>
+  </PropertyGroup>
 </Project>

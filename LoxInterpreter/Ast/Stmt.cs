@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-
 namespace LoxInterpreter
 {
     interface IStmtVisitor
     {
         void VisitBlockStmt(BlockStmt stmt);
         void VisitExpressionStmt(ExpressionStmt stmt);
+        void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
         void VisitVarStmt(VarStmt stmt);
     }
@@ -35,6 +35,22 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitExpressionStmt(this);
+        }
+    }
+    class IfStmt : Stmt
+    {
+        public Expr Condition { get; }
+        public Stmt ThenBranch { get; }
+        public Stmt ElseBranch { get; }
+        public IfStmt(Expr Condition, Stmt ThenBranch, Stmt ElseBranch)
+        {
+            this.Condition = Condition;
+            this.ThenBranch = ThenBranch;
+            this.ElseBranch = ElseBranch;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitIfStmt(this);
         }
     }
     class PrintStmt : Stmt
