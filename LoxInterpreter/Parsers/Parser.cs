@@ -13,6 +13,18 @@ namespace LoxInterpreter
             this.tokens = tokens;
         }
 
+        public Expr Parse()
+        {
+            try
+            {
+                return Expression();
+            }
+            catch (ParseError e)
+            {
+                return null;
+            }
+        }
+
         private Expr Expression()
         {
             return Equality();
@@ -104,7 +116,7 @@ namespace LoxInterpreter
                 return new GroupingExpr(expr);
             }
 
-            throw new Exception("Unexpected primary fallthrough.");
+            throw Error(Peek(), "Expected expression.");
         }
 
         private Token Consume(TokenType type, string message)
@@ -114,6 +126,32 @@ namespace LoxInterpreter
                 return Advance();
             }
             throw Error(Peek(), message);
+        }
+
+        private void Synchronize()
+        {
+            Advance();
+
+            while (!IsAtEnd())
+            {
+                if (Previous().Type == TokenType.Semicolon)
+                    return;
+
+                switch (Peek().Type)
+                {
+                    case TokenType.Class:
+                    case TokenType.Fun:
+                    case TokenType.Var:
+                    case TokenType.For:
+                    case TokenType.If:
+                    case TokenType.While:
+                    case TokenType.Print:
+                    case TokenType.Return:
+                        return;
+                }
+
+                Advance();
+            }
         }
 
         private ParseError Error(Token token, string message)
