@@ -5,14 +5,16 @@ namespace LoxInterpreter
 {
     class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
-        private readonly Environment globals = new Environment();
         private Environment environment;
+
+        public Environment Globals { get; }
 
         public Interpreter()
         {
-            globals.Define("clock", new ClockFunction());
+            Globals = new Environment();
+            Globals.Define("clock", new ClockFunction());
 
-            environment = globals;
+            environment = Globals;
         }
 
         public void Interpret(List<Stmt> statements)
@@ -40,6 +42,12 @@ namespace LoxInterpreter
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);
+        }
+
+        public void VisitFunctionStmt(FunctionStmt stmt)
+        {
+            var function = new LoxFunction(stmt);
+            environment.Define(stmt.Name.Lexeme, function);
         }
 
         public void VisitIfStmt(IfStmt stmt)
@@ -228,7 +236,7 @@ namespace LoxInterpreter
             stmt.Accept(this);
         }
 
-        private void ExecuteBlock(List<Stmt> statements, Environment environment)
+        public void ExecuteBlock(List<Stmt> statements, Environment environment)
         {
             Environment previous = this.environment;
             try

@@ -1,0 +1,15 @@
+fun print_this(x)
+{
+    print x;
+}
+print print_this;
+
+print_this(13);
+
+fun add(a, b) {
+  print a + b;
+}
+
+print add; // "<fn add>".
+
+add(5, 3);
