@@ -65,6 +65,7 @@
     <Compile Include="Interpreter\Interpreter.cs" />
     <Compile Include="Interpreter\NativeFunctions\ClockFunction.cs" />
     <Compile Include="Interpreter\NativeFunctions\LoxFunction.cs" />
+    <Compile Include="Interpreter\Return.cs" />
     <Compile Include="Interpreter\RuntimeError.cs" />
     <Compile Include="Lox.cs" />
     <Compile Include="Parser\ParseError.cs" />

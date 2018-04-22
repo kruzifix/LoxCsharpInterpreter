@@ -68,6 +68,15 @@ namespace LoxInterpreter
             Console.WriteLine(Stringify(value));
         }
 
+        public void VisitReturnStmt(ReturnStmt stmt)
+        {
+            object value = null;
+            if (stmt.Value != null)
+                value = Evaluate(stmt.Value);
+
+            throw new Return(value);
+        }
+
         public void VisitVarStmt(VarStmt stmt)
         {
             object value = null;

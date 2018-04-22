@@ -128,6 +128,7 @@ defineAst('Stmt', [
     ('Function', [('Token', 'Name'), ('List<Token>', 'Parameters'), ('List<Stmt>', 'Body')]),
     ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),
     ('Print', [('Expr', 'Expression')]),
+    ('Return', [('Token', 'Keyword'), ('Expr', 'Value')]),
     ('Var', [('Token', 'Name'), ('Expr', 'Initializer')]),
     ('While', [('Expr', 'Condition'), ('Stmt', 'Body')])
 ], ['System.Collections.Generic'])

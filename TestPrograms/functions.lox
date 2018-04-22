@@ -13,3 +13,28 @@ fun add(a, b) {
 print add; // "<fn add>".
 
 add(5, 3);
+
+fun sayHi(first, last) {
+  print "Hi, " + first + " " + last + "!";
+}
+
+sayHi("Dear", "Reader");
+
+fun fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 2) + fibonacci(n - 1);
+}
+
+for (var i = 0; i < 20; i = i + 1) {
+  var start = clock();
+  var f = fibonacci(i);
+  var end = clock();
+  print f + ": " + (end - start);
+}
+
+fun callFun(func, x)
+{
+    print x + ": " + func(x);
+}
+
+callFun(fibonacci, 5);

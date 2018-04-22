@@ -8,6 +8,7 @@ namespace LoxInterpreter
         void VisitFunctionStmt(FunctionStmt stmt);
         void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
+        void VisitReturnStmt(ReturnStmt stmt);
         void VisitVarStmt(VarStmt stmt);
         void VisitWhileStmt(WhileStmt stmt);
     }
@@ -81,6 +82,20 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitPrintStmt(this);
+        }
+    }
+    class ReturnStmt : Stmt
+    {
+        public Token Keyword { get; }
+        public Expr Value { get; }
+        public ReturnStmt(Token Keyword, Expr Value)
+        {
+            this.Keyword = Keyword;
+            this.Value = Value;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitReturnStmt(this);
         }
     }
     class VarStmt : Stmt
