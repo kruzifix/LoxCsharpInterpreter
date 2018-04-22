@@ -5,8 +5,10 @@ if len(sys.argv) >= 1:
     targetDir = sys.argv[1]
     print(f"targetDir: {targetDir}")
 
-def defineTypedAst(baseClass, classes):
+def defineTypedAst(baseClass, classes, namespaces = []):
     with open(f"{targetDir}{baseClass}.cs", 'w') as f:
+        for n in namespaces:
+            f.write(f"using {n};\n")
         f.write("namespace LoxInterpreter\n{\n")
         
         f.write(f"    interface I{baseClass}Visitor<T>\n    {{\n")
@@ -89,6 +91,12 @@ defineTypedAst('Expr', [
         ('Token', 'Operator'),
         ('Expr', 'Right'),
     ]),
+    ('Call',
+    [
+        ('Expr', 'Callee'),
+        ('Token', 'Paren'),
+        ('List<Expr>', 'Arguments')
+    ]),
     ('Grouping',
     [
         ('Expr', 'Expression')
@@ -112,7 +120,7 @@ defineTypedAst('Expr', [
     [
         ('Token', 'Name')
     ])
-])
+], ['System.Collections.Generic'])
 
 defineAst('Stmt', [
     ('Block', [('List<Stmt>', 'Statements')]),

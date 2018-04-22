@@ -19,6 +19,11 @@ namespace LoxInterpreter
             return Parenthesize(expr.Operator.Lexeme, expr.Left, expr.Right);
         }
 
+        public string VisitCallExpr(CallExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitGroupingExpr(GroupingExpr expr)
         {
             return Parenthesize("group", expr.Expression);

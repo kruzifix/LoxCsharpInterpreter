@@ -140,6 +140,29 @@ namespace LoxInterpreter
             return null;
         }
 
+        public object VisitCallExpr(CallExpr expr)
+        {
+            var callee = Evaluate(expr);
+
+            var arguments = new List<object>();
+            foreach (var arg in expr.Arguments)
+            {
+                arguments.Add(Evaluate(arg));
+            }
+
+            if (!(callee is ICallable))
+            {
+                throw new RuntimeError(expr.Paren, "Can only call functions and classes.");
+            }
+
+            var function = (ICallable)callee;
+            if (arguments.Count != function.Arity())
+            {
+                throw new RuntimeError(expr.Paren, string.Format("Expected {0} arguments but got {1}.", function.Arity(), arguments.Count));
+            }
+            return function.Call(this, arguments);
+        }
+
         public object VisitGroupingExpr(GroupingExpr expr)
         {
             return Evaluate(expr.Expression);

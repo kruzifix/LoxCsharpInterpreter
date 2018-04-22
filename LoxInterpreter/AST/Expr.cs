@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 namespace LoxInterpreter
 {
     interface IExprVisitor<T>
     {
         T VisitAssignExpr(AssignExpr expr);
         T VisitBinaryExpr(BinaryExpr expr);
+        T VisitCallExpr(CallExpr expr);
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
         T VisitLogicalExpr(LogicalExpr expr);
@@ -42,6 +44,22 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitBinaryExpr(this);
+        }
+    }
+    class CallExpr : Expr
+    {
+        public Expr Callee { get; }
+        public Token Paren { get; }
+        public List<Expr> Arguments { get; }
+        public CallExpr(Expr Callee, Token Paren, List<Expr> Arguments)
+        {
+            this.Callee = Callee;
+            this.Paren = Paren;
+            this.Arguments = Arguments;
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitCallExpr(this);
         }
     }
     class GroupingExpr : Expr

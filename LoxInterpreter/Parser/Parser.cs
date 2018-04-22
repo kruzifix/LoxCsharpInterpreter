@@ -282,7 +282,42 @@ namespace LoxInterpreter
                 return new UnaryExpr(op, right);
             }
 
-            return Primary();
+            return Call();
+        }
+
+        private Expr Call()
+        {
+            var expr = Primary();
+
+            while (true)
+            {
+                if (Match(TokenType.LeftParen))
+                    expr = FinishCall(expr);
+                else
+                    break;
+            }
+
+            return expr;
+        }
+
+        private Expr FinishCall(Expr callee)
+        {
+            var arguments = new List<Expr>();
+            if (!Check(TokenType.RightParen))
+            {
+                do
+                {
+                    if (arguments.Count >= 8)
+                    {
+                        Error(Peek(), "Cannot have more than 8 arguments.");
+                    }
+                    arguments.Add(Expression());
+                } while (Match(TokenType.Comma));
+            }
+
+            var paren = Consume(TokenType.RightParen, "Expected ')' after arguments.");
+
+            return new CallExpr(callee, paren, arguments);
         }
 
         private Expr Primary()
