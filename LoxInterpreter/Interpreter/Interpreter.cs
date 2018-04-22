@@ -46,7 +46,7 @@ namespace LoxInterpreter
 
         public void VisitFunctionStmt(FunctionStmt stmt)
         {
-            var function = new LoxFunction(stmt);
+            var function = new LoxFunction(stmt, environment);
             environment.Define(stmt.Name.Lexeme, function);
         }
 

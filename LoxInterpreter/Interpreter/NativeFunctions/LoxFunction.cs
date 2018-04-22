@@ -5,10 +5,12 @@ namespace LoxInterpreter
     class LoxFunction : ICallable
     {
         private FunctionStmt declaration;
+        private Environment closure;
 
-        public LoxFunction(FunctionStmt declaration)
+        public LoxFunction(FunctionStmt declaration, Environment closure)
         {
             this.declaration = declaration;
+            this.closure = closure;
         }
 
         public int Arity()
@@ -18,7 +20,7 @@ namespace LoxInterpreter
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
-            Environment environment = new Environment(interpreter.Globals);
+            Environment environment = new Environment(closure);
 
             for (int i = 0; i < declaration.Parameters.Count; i++)
             {
