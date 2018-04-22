@@ -26,10 +26,10 @@ namespace LoxInterpreter
         {
             try
             {
+                if (Match(TokenType.Fun))
+                    return Function("function");
                 if (Match(TokenType.Var))
-                {
                     return VarDeclaration();
-                }
 
                 return Statement();
             }
@@ -38,6 +38,30 @@ namespace LoxInterpreter
                 Synchronize();
                 return null;
             }
+        }
+
+        private FunctionStmt Function(string kind)
+        {
+            var name = Consume(TokenType.Identifier, "Expected " + kind + " name.");
+
+            Consume(TokenType.LeftParen, "Expected '(' after " + kind + " name.");
+            var parameters = new List<Token>();
+            if (!Check(TokenType.RightParen))
+            {
+                do
+                {
+                    if (parameters.Count >= 8)
+                    {
+                        Error(Peek(), "Cannot have more than 8 parameters.");
+                    }
+                    parameters.Add(Consume(TokenType.Identifier, "Expected parameter name."));
+                } while (Match(TokenType.Comma));
+            }
+            Consume(TokenType.RightParen, "Expected ')' after parameters.");
+
+            Consume(TokenType.LeftBrace, "Expect '{' before " + kind + " body.");
+            List<Stmt> body = Block();
+            return new FunctionStmt(name, parameters, body);
         }
 
         private Stmt VarDeclaration()

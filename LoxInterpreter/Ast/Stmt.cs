@@ -5,6 +5,7 @@ namespace LoxInterpreter
     {
         void VisitBlockStmt(BlockStmt stmt);
         void VisitExpressionStmt(ExpressionStmt stmt);
+        void VisitFunctionStmt(FunctionStmt stmt);
         void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
         void VisitVarStmt(VarStmt stmt);
@@ -36,6 +37,22 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitExpressionStmt(this);
+        }
+    }
+    class FunctionStmt : Stmt
+    {
+        public Token Name { get; }
+        public List<Token> Parameters { get; }
+        public List<Stmt> Body { get; }
+        public FunctionStmt(Token Name, List<Token> Parameters, List<Stmt> Body)
+        {
+            this.Name = Name;
+            this.Parameters = Parameters;
+            this.Body = Body;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitFunctionStmt(this);
         }
     }
     class IfStmt : Stmt

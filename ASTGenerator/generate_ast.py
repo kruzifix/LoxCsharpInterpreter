@@ -125,6 +125,7 @@ defineTypedAst('Expr', [
 defineAst('Stmt', [
     ('Block', [('List<Stmt>', 'Statements')]),
     ('Expression', [('Expr', 'Expression')]),
+    ('Function', [('Token', 'Name'), ('List<Token>', 'Parameters'), ('List<Stmt>', 'Body')]),
     ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),
     ('Print', [('Expr', 'Expression')]),
     ('Var', [('Token', 'Name'), ('Expr', 'Initializer')]),
