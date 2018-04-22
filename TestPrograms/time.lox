@@ -1,0 +1,12 @@
+var start = clock();
+
+var sum = 0;
+for (var i = 0; i < 100; i = i + 0.001)
+{
+  sum = sum + i * i;
+}
+
+var end = clock();
+
+print "time: " + (end - start);
+print "sum: " + sum;

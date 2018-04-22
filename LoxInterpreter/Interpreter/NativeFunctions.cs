@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+
 namespace LoxInterpreter
 {
     class ClockFunction : ICallable
     {
-        private int start;
+        private long start;
 
         public ClockFunction()
         {
-            start = System.Environment.TickCount;
+            start = DateTime.Now.Ticks;
         }
 
         public int Arity()
@@ -19,7 +19,7 @@ namespace LoxInterpreter
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
-            return (double)((System.Environment.TickCount - start) / 1000.0);
+            return (double)((DateTime.Now.Ticks - start) / 1000000.0);
         }
     }
 }
