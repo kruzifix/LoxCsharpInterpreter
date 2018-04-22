@@ -61,7 +61,9 @@
     <Compile Include="Ast\Expr.cs" />
     <Compile Include="Ast\Stmt.cs" />
     <Compile Include="Interpreter\Environment.cs" />
+    <Compile Include="Interpreter\ICallable.cs" />
     <Compile Include="Interpreter\Interpreter.cs" />
+    <Compile Include="Interpreter\NativeFunctions.cs" />
     <Compile Include="Interpreter\RuntimeError.cs" />
     <Compile Include="Lox.cs" />
     <Compile Include="Parser\ParseError.cs" />

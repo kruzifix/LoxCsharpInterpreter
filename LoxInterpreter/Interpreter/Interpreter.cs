@@ -5,11 +5,14 @@ namespace LoxInterpreter
 {
     class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
+        private readonly Environment globals = new Environment();
         private Environment environment;
 
         public Interpreter()
         {
-            environment = new Environment();
+            globals.Define("clock", new ClockFunction());
+
+            environment = globals;
         }
 
         public void Interpret(List<Stmt> statements)
@@ -142,7 +145,7 @@ namespace LoxInterpreter
 
         public object VisitCallExpr(CallExpr expr)
         {
-            var callee = Evaluate(expr);
+            var callee = Evaluate(expr.Callee);
 
             var arguments = new List<object>();
             foreach (var arg in expr.Arguments)
