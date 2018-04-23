@@ -1,0 +1,6 @@
+var test = 13;
+
+fun test()
+{
+	print "test";
+}
