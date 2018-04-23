@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace LoxInterpreter
 {
@@ -212,7 +213,10 @@ namespace LoxInterpreter
                 }
             }
 
-            AddToken(TokenType.Number, double.Parse(source.Substring(start, current - start)));
+            string numberString = source.Substring(start, current - start);
+            double number = double.Parse(numberString, CultureInfo.InvariantCulture);
+
+            AddToken(TokenType.Number, number);
         }
 
         private bool IsDigit(char c)
