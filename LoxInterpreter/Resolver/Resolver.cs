@@ -6,11 +6,13 @@ namespace LoxInterpreter
     {
         private Interpreter interpreter;
         private Stack<Dictionary<string, bool>> scopes;
+        private FunctionType currentFunction;
 
         public Resolver(Interpreter interpreter)
         {
             this.interpreter = interpreter;
             scopes = new Stack<Dictionary<string, bool>>();
+            currentFunction = FunctionType.None;
         }
 
         public void Resolve(List<Stmt> statements)
@@ -42,8 +44,10 @@ namespace LoxInterpreter
             }
         }
 
-        private void ResolveFunction(FunctionStmt function)
+        private void ResolveFunction(FunctionStmt function, FunctionType type)
         {
+            var enclosingFunction = currentFunction;
+            currentFunction = type;
             BeginScope();
             foreach (var param in function.Parameters)
             {
@@ -52,6 +56,7 @@ namespace LoxInterpreter
             }
             Resolve(function.Body);
             EndScope();
+            currentFunction = enclosingFunction;
         }
 
         private void BeginScope()
@@ -158,7 +163,7 @@ namespace LoxInterpreter
             Declare(stmt.Name);
             Define(stmt.Name);
 
-            ResolveFunction(stmt);
+            ResolveFunction(stmt, FunctionType.Function);
         }
 
         public void VisitIfStmt(IfStmt stmt)
@@ -176,6 +181,8 @@ namespace LoxInterpreter
 
         public void VisitReturnStmt(ReturnStmt stmt)
         {
+            if (currentFunction == FunctionType.None)
+                Lox.Error(stmt.Keyword, "Cannot return from top-level code.");
             if (stmt.Value != null)
                 Resolve(stmt.Value);
         }

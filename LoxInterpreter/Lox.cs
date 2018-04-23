@@ -63,16 +63,11 @@ namespace LoxInterpreter
             if (hadError)
                 return;
 
-            /*
-            if (statements.Count == 1 && statements[0] is ExpressionStmt)
-            {
-                var result = interpreter.Evaluate((statements[0] as ExpressionStmt).Expression);
-                Console.WriteLine(Interpreter.Stringify(result));
-                return;
-            }
-            */
             var resolver = new Resolver(interpreter);
             resolver.Resolve(statements);
+
+            if (hadError)
+                return;
 
             interpreter.Interpret(statements);
         }
