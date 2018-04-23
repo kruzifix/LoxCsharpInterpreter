@@ -13,7 +13,7 @@ namespace LoxInterpreter
             scopes = new Stack<Dictionary<string, bool>>();
         }
 
-        private void Resolve(List<Stmt> statements)
+        public void Resolve(List<Stmt> statements)
         {
             statements.ForEach(s => Resolve(s));
         }
