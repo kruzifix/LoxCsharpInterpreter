@@ -13,6 +13,7 @@ namespace LoxInterpreter
         {
             keywords = new Dictionary<string, TokenType>();
             keywords.Add("and", TokenType.And);
+            keywords.Add("break", TokenType.Break);
             keywords.Add("class", TokenType.Class);
             keywords.Add("else", TokenType.Else);
             keywords.Add("false", TokenType.False);

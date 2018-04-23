@@ -4,6 +4,7 @@ namespace LoxInterpreter
     interface IStmtVisitor
     {
         void VisitBlockStmt(BlockStmt stmt);
+        void VisitBreakStmt(BreakStmt stmt);
         void VisitExpressionStmt(ExpressionStmt stmt);
         void VisitFunctionStmt(FunctionStmt stmt);
         void VisitIfStmt(IfStmt stmt);
@@ -15,6 +16,7 @@ namespace LoxInterpreter
     interface IStmtVisitor<T>
     {
         T VisitBlockStmt(BlockStmt stmt);
+        T VisitBreakStmt(BreakStmt stmt);
         T VisitExpressionStmt(ExpressionStmt stmt);
         T VisitFunctionStmt(FunctionStmt stmt);
         T VisitIfStmt(IfStmt stmt);
@@ -42,6 +44,22 @@ namespace LoxInterpreter
         public override T Accept<T>(IStmtVisitor<T> visitor)
         {
             return visitor.VisitBlockStmt(this);
+        }
+    }
+    class BreakStmt : Stmt
+    {
+        public Token Keyword { get; }
+        public BreakStmt(Token Keyword)
+        {
+            this.Keyword = Keyword;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitBreakStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitBreakStmt(this);
         }
     }
     class ExpressionStmt : Stmt

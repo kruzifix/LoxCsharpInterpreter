@@ -14,12 +14,14 @@ namespace LoxInterpreter
         private Interpreter interpreter;
         private Stack<Dictionary<string, VariableData>> scopes;
         private FunctionType currentFunction;
+        private int loopDepth;
 
         public Resolver(Interpreter interpreter)
         {
             this.interpreter = interpreter;
             scopes = new Stack<Dictionary<string, VariableData>>();
             currentFunction = FunctionType.None;
+            loopDepth = 0;
         }
 
         public void Resolve(List<Stmt> statements)
@@ -176,6 +178,12 @@ namespace LoxInterpreter
             EndScope();
         }
 
+        public void VisitBreakStmt(BreakStmt stmt)
+        {
+            if (loopDepth == 0) // not inside loop
+                Lox.Error(stmt.Keyword, "Cannot break outside of loop.");
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Resolve(stmt.Expression);
@@ -223,7 +231,11 @@ namespace LoxInterpreter
         public void VisitWhileStmt(WhileStmt stmt)
         {
             Resolve(stmt.Condition);
+            loopDepth++;
             Resolve(stmt.Body);
+            loopDepth--;
+            if (loopDepth < 0)
+                throw new System.Exception("loopDepth < 0 !?!");
         }
 
         #endregion

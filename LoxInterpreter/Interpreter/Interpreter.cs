@@ -41,6 +41,11 @@ namespace LoxInterpreter
             ExecuteBlock(stmt.Statements, new Environment(environment));
         }
 
+        public void VisitBreakStmt(BreakStmt stmt)
+        {
+            throw new Break();
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);
@@ -97,7 +102,14 @@ namespace LoxInterpreter
                 // break/continue statement
                 // throw abort/continue loop exception
                 // catch here!
-                Execute(stmt.Body);
+                try
+                {
+                    Execute(stmt.Body);
+                }
+                catch (Break)
+                {
+                    return;
+                }
             }
         }
 

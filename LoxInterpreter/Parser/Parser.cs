@@ -84,6 +84,8 @@ namespace LoxInterpreter
                 return IfStatement();
             if (Match(TokenType.Print))
                 return PrintStatement();
+            if (Match(TokenType.Break))
+                return BreakStatement();
             if (Match(TokenType.Return))
                 return ReturnStatement();
             if (Match(TokenType.While))
@@ -151,6 +153,13 @@ namespace LoxInterpreter
             var value = Expression();
             Consume(TokenType.Semicolon, "Expected ';' after value.");
             return new PrintStmt(value);
+        }
+
+        private Stmt BreakStatement()
+        {
+            var keyword = Previous();
+            Consume(TokenType.Semicolon, "Expected ';' after break.");
+            return new BreakStmt(keyword);
         }
 
         private Stmt ReturnStatement()
