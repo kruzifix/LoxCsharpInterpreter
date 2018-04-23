@@ -71,6 +71,7 @@
     <Compile Include="Parser\ParseError.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolver\Resolver.cs" />
     <Compile Include="Scanner\Scanner.cs" />
     <Compile Include="Scanner\Token.cs" />
     <Compile Include="Scanner\TokenType.cs" />
