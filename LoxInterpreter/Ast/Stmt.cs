@@ -12,9 +12,21 @@ namespace LoxInterpreter
         void VisitVarStmt(VarStmt stmt);
         void VisitWhileStmt(WhileStmt stmt);
     }
+    interface IStmtVisitor<T>
+    {
+        T VisitBlockStmt(BlockStmt stmt);
+        T VisitExpressionStmt(ExpressionStmt stmt);
+        T VisitFunctionStmt(FunctionStmt stmt);
+        T VisitIfStmt(IfStmt stmt);
+        T VisitPrintStmt(PrintStmt stmt);
+        T VisitReturnStmt(ReturnStmt stmt);
+        T VisitVarStmt(VarStmt stmt);
+        T VisitWhileStmt(WhileStmt stmt);
+    }
     abstract class Stmt
     {
         public abstract void Accept(IStmtVisitor visitor);
+        public abstract T Accept<T>(IStmtVisitor<T> visitor);
     }
     class BlockStmt : Stmt
     {
@@ -27,6 +39,10 @@ namespace LoxInterpreter
         {
             visitor.VisitBlockStmt(this);
         }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitBlockStmt(this);
+        }
     }
     class ExpressionStmt : Stmt
     {
@@ -38,6 +54,10 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitExpressionStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitExpressionStmt(this);
         }
     }
     class FunctionStmt : Stmt
@@ -55,6 +75,10 @@ namespace LoxInterpreter
         {
             visitor.VisitFunctionStmt(this);
         }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitFunctionStmt(this);
+        }
     }
     class IfStmt : Stmt
     {
@@ -71,6 +95,10 @@ namespace LoxInterpreter
         {
             visitor.VisitIfStmt(this);
         }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitIfStmt(this);
+        }
     }
     class PrintStmt : Stmt
     {
@@ -82,6 +110,10 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitPrintStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitPrintStmt(this);
         }
     }
     class ReturnStmt : Stmt
@@ -97,6 +129,10 @@ namespace LoxInterpreter
         {
             visitor.VisitReturnStmt(this);
         }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitReturnStmt(this);
+        }
     }
     class VarStmt : Stmt
     {
@@ -111,6 +147,10 @@ namespace LoxInterpreter
         {
             visitor.VisitVarStmt(this);
         }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitVarStmt(this);
+        }
     }
     class WhileStmt : Stmt
     {
@@ -124,6 +164,10 @@ namespace LoxInterpreter
         public override void Accept(IStmtVisitor visitor)
         {
             visitor.VisitWhileStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitWhileStmt(this);
         }
     }
 }

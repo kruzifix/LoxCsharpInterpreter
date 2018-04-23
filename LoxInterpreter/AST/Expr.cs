@@ -1,6 +1,17 @@
 using System.Collections.Generic;
 namespace LoxInterpreter
 {
+    interface IExprVisitor
+    {
+        void VisitAssignExpr(AssignExpr expr);
+        void VisitBinaryExpr(BinaryExpr expr);
+        void VisitCallExpr(CallExpr expr);
+        void VisitGroupingExpr(GroupingExpr expr);
+        void VisitLiteralExpr(LiteralExpr expr);
+        void VisitLogicalExpr(LogicalExpr expr);
+        void VisitUnaryExpr(UnaryExpr expr);
+        void VisitVariableExpr(VariableExpr expr);
+    }
     interface IExprVisitor<T>
     {
         T VisitAssignExpr(AssignExpr expr);
@@ -14,6 +25,7 @@ namespace LoxInterpreter
     }
     abstract class Expr
     {
+        public abstract void Accept(IExprVisitor visitor);
         public abstract T Accept<T>(IExprVisitor<T> visitor);
     }
     class AssignExpr : Expr
@@ -24,6 +36,10 @@ namespace LoxInterpreter
         {
             this.Name = Name;
             this.Value = Value;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitAssignExpr(this);
         }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
@@ -41,6 +57,10 @@ namespace LoxInterpreter
             this.Operator = Operator;
             this.Right = Right;
         }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitBinaryExpr(this);
+        }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitBinaryExpr(this);
@@ -57,6 +77,10 @@ namespace LoxInterpreter
             this.Paren = Paren;
             this.Arguments = Arguments;
         }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitCallExpr(this);
+        }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitCallExpr(this);
@@ -69,6 +93,10 @@ namespace LoxInterpreter
         {
             this.Expression = Expression;
         }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitGroupingExpr(this);
+        }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitGroupingExpr(this);
@@ -80,6 +108,10 @@ namespace LoxInterpreter
         public LiteralExpr(object Value)
         {
             this.Value = Value;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitLiteralExpr(this);
         }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
@@ -97,6 +129,10 @@ namespace LoxInterpreter
             this.Operator = Operator;
             this.Right = Right;
         }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitLogicalExpr(this);
+        }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitLogicalExpr(this);
@@ -111,6 +147,10 @@ namespace LoxInterpreter
             this.Operator = Operator;
             this.Right = Right;
         }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitUnaryExpr(this);
+        }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitUnaryExpr(this);
@@ -122,6 +162,10 @@ namespace LoxInterpreter
         public VariableExpr(Token Name)
         {
             this.Name = Name;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitVariableExpr(this);
         }
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
