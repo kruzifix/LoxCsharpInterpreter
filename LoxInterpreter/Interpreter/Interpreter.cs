@@ -108,7 +108,12 @@ namespace LoxInterpreter
         public object VisitAssignExpr(AssignExpr expr)
         {
             var value = Evaluate(expr.Value);
-            environment.Assign(expr.Name, value);
+
+            if (locals.ContainsKey(expr))
+                environment.AssignAt(locals[expr], expr.Name, value);
+            else
+                Globals.Assign(expr.Name, value);
+
             return value;
         }
 
@@ -232,7 +237,7 @@ namespace LoxInterpreter
 
         public object VisitVariableExpr(VariableExpr expr)
         {
-            return environment.Get(expr.Name);
+            return LookUpVariable(expr.Name, expr);
         }
 
         #endregion
@@ -240,6 +245,15 @@ namespace LoxInterpreter
         public void Resolve(Expr expr, int depth)
         {
             locals.Add(expr, depth);
+        }
+
+        private object LookUpVariable(Token name, Expr expr)
+        {
+            if (locals.ContainsKey(expr))
+            {
+                return environment.GetAt(locals[expr], name.Lexeme);
+            }
+            return Globals.Get(name);
         }
 
         public object Evaluate(Expr expr)
