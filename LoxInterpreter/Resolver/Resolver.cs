@@ -69,6 +69,12 @@ namespace LoxInterpreter
             if (scopes.Count == 0)
                 return;
             var scope = scopes.Peek();
+
+            if (scope.ContainsKey(name.Lexeme))
+            {
+                Lox.Error(name, "Variable with this name already declared in this scope.");
+            }
+
             scope.Add(name.Lexeme, false);
         }
 
