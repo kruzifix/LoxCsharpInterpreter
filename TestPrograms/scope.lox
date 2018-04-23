@@ -27,9 +27,9 @@ print c;
 
 print "";
 
-var x = 1;
+var xg = 1;
 {
-  var x = x + 2;
+  var x = xg + 2;
   print "x = " + x;
 }
 
@@ -39,4 +39,4 @@ print "";
   var abc = "in block";
   print abc;
 }
-print abc; // Error! No more "a".
+print abc; // Error! No more "abc".
