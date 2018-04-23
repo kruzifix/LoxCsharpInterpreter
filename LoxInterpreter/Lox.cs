@@ -28,6 +28,11 @@ namespace LoxInterpreter
 
         private static void RunFile(string path)
         {
+            if (!File.Exists(path))
+            {
+                Console.WriteLine("Cannot find file at '{0}'.", path);
+                System.Environment.Exit(2);
+            }
             string source = File.ReadAllText(path);
             Run(source);
 
