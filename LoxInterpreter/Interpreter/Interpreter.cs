@@ -6,6 +6,7 @@ namespace LoxInterpreter
     class Interpreter : IExprVisitor<object>, IStmtVisitor
     {
         private Environment environment;
+        private Dictionary<Expr, int> locals;
 
         public Environment Globals { get; }
 
@@ -14,6 +15,7 @@ namespace LoxInterpreter
             Globals = new Environment();
             Globals.Define("clock", new ClockFunction());
 
+            locals = new Dictionary<Expr, int>();
             environment = Globals;
         }
 
@@ -234,6 +236,11 @@ namespace LoxInterpreter
         }
 
         #endregion
+
+        public void Resolve(Expr expr, int depth)
+        {
+            locals.Add(expr, depth);
+        }
 
         public object Evaluate(Expr expr)
         {

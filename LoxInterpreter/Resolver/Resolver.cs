@@ -30,15 +30,15 @@ namespace LoxInterpreter
 
         private void ResolveLocal(Expr expr, Token name)
         {
-            int scopeDistance = 0;
+            int depth = 0;
             foreach (var scope in scopes)
             {
                 if (scope.ContainsKey(name.Lexeme))
                 {
-                    interpreter.Resolve(expr, scopeDistance);
+                    interpreter.Resolve(expr, depth);
                     return;
                 }
-                scopeDistance++;
+                depth++;
             }
         }
 
