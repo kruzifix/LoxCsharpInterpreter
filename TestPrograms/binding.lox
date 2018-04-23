@@ -1,3 +1,22 @@
+{
+
+	var a = 1;
+	var lox = 23;
+		
+	var a = 2;
+	
+	fun lox()
+	{
+		print "lox";
+	}
+}
+
+return;
+
+var x = 12;
+
+var x = "tset";
+
 var test = 13;
 
 fun test()

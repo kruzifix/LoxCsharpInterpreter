@@ -1,0 +1,19 @@
+
+var a;
+
+{
+	var a;
+	var b;
+	var c;
+	
+	// c = a + b;
+}
+
+fun test(t1, t2)
+{
+	var x = t1 + t2;
+	var y = 13;
+	
+	print y;
+}
+

@@ -94,6 +94,11 @@ namespace LoxInterpreter
             }
         }
 
+        public static void Warning(int line, string message)
+        {
+            Console.WriteLine("[Line {0}] Warning: {1}", line, message);
+        }
+
         public static void Report(int line, string where, string message)
         {
             Console.Error.WriteLine("[Line {0}] Error {1}: {2}", line, where, message);

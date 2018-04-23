@@ -4,14 +4,21 @@ namespace LoxInterpreter
 {
     class Resolver : IExprVisitor, IStmtVisitor
     {
+        class VariableData
+        {
+            public bool Defined { get; set; }
+            public int Line { get; set; }
+            public bool Used { get; set; }
+        }
+
         private Interpreter interpreter;
-        private Stack<Dictionary<string, bool>> scopes;
+        private Stack<Dictionary<string, VariableData>> scopes;
         private FunctionType currentFunction;
 
         public Resolver(Interpreter interpreter)
         {
             this.interpreter = interpreter;
-            scopes = new Stack<Dictionary<string, bool>>();
+            scopes = new Stack<Dictionary<string, VariableData>>();
             currentFunction = FunctionType.None;
         }
 
@@ -37,6 +44,7 @@ namespace LoxInterpreter
             {
                 if (scope.ContainsKey(name.Lexeme))
                 {
+                    scope[name.Lexeme].Used = true;
                     interpreter.Resolve(expr, depth);
                     return;
                 }
@@ -61,12 +69,20 @@ namespace LoxInterpreter
 
         private void BeginScope()
         {
-            scopes.Push(new Dictionary<string, bool>());
+            scopes.Push(new Dictionary<string, VariableData>());
         }
 
         private void EndScope()
         {
-            scopes.Pop();
+            var scope = scopes.Pop();
+
+            foreach (var kvp in scope)
+            {
+                if (kvp.Value.Used == false)
+                {
+                    Lox.Warning(kvp.Value.Line, "Variable " + kvp.Key + " declared but never used.");
+                }
+            }
         }
 
         private void Declare(Token name)
@@ -78,16 +94,21 @@ namespace LoxInterpreter
             if (scope.ContainsKey(name.Lexeme))
             {
                 Lox.Error(name, "Variable with this name already declared in this scope.");
+                return;
             }
 
-            scope.Add(name.Lexeme, false);
+            scope.Add(name.Lexeme, new VariableData {
+                Defined = false,
+                Line = name.Line,
+                Used = false
+            });
         }
 
         private void Define(Token name)
         {
             if (scopes.Count == 0)
                 return;
-            scopes.Peek()[name.Lexeme] = true;
+            scopes.Peek()[name.Lexeme].Defined = true;
         }
 
         #region Expressions
@@ -137,7 +158,7 @@ namespace LoxInterpreter
             if (scopes.Count > 0)
             {
                 var scope = scopes.Peek();
-                if (scope.ContainsKey(expr.Name.Lexeme) && scope[expr.Name.Lexeme] == false)
+                if (scope.ContainsKey(expr.Name.Lexeme) && scope[expr.Name.Lexeme].Defined == false)
                     Lox.Error(expr.Name, "Cannot read local variable in its own initializer.");
             }
 
