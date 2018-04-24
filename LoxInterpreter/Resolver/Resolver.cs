@@ -14,6 +14,7 @@ namespace LoxInterpreter
         private Interpreter interpreter;
         private Stack<Dictionary<string, VariableData>> scopes;
         private FunctionType currentFunction;
+        private ClassType currentClass;
         private int loopDepth;
 
         public Resolver(Interpreter interpreter)
@@ -21,6 +22,7 @@ namespace LoxInterpreter
             this.interpreter = interpreter;
             scopes = new Stack<Dictionary<string, VariableData>>();
             currentFunction = FunctionType.None;
+            currentClass = ClassType.None;
             loopDepth = 0;
         }
 
@@ -163,6 +165,11 @@ namespace LoxInterpreter
 
         public void VisitThisExpr(ThisExpr expr)
         {
+            if (currentClass == ClassType.None)
+            {
+                Lox.Error(expr.Keyword, "Cannot use 'this' ouside of class.");
+                return;
+            }
             ResolveLocal(expr, expr.Keyword);
         }
 
@@ -205,6 +212,9 @@ namespace LoxInterpreter
             Declare(stmt.Name);
             Define(stmt.Name);
 
+            var enclosingClass = currentClass;
+            currentClass = ClassType.Class;
+
             BeginScope();
             scopes.Peek().Add("this", new VariableData {
                 Defined = true,
@@ -219,6 +229,8 @@ namespace LoxInterpreter
                 ResolveFunction(method, declaration);
             }
             EndScope();
+
+            currentClass = enclosingClass;
         }
 
         public void VisitExpressionStmt(ExpressionStmt stmt)
