@@ -1,0 +1,5 @@
+class Breakfast { }
+
+print Breakfast; // Prints "DevonshireCream".
+
+var x = Breakfast();

@@ -46,6 +46,13 @@ namespace LoxInterpreter
             throw new Break();
         }
 
+        public void VisitClassStmt(ClassStmt stmt)
+        {
+            environment.Define(stmt.Name.Lexeme, null);
+            var klass = new LoxClass(stmt.Name.Lexeme);
+            environment.Assign(stmt.Name, klass);
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);

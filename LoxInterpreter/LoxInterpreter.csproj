@@ -64,6 +64,7 @@
     <Compile Include="Interpreter\Environment.cs" />
     <Compile Include="Interpreter\ICallable.cs" />
     <Compile Include="Interpreter\Interpreter.cs" />
+    <Compile Include="Interpreter\LoxClass.cs" />
     <Compile Include="Interpreter\NativeFunctions\ClockFunction.cs" />
     <Compile Include="Interpreter\NativeFunctions\LoxFunction.cs" />
     <Compile Include="Interpreter\Return.cs" />
