@@ -3,6 +3,8 @@ class Foo
 	init(x)
 	{
 		this.x = x;
+		if (x > 0)
+			return;
 		print this;
 	}
 }
@@ -11,6 +13,6 @@ var foo = Foo(13);
 
 print foo.x;
 
-print foo.init(5);
+var bar = Foo(-1);
 
-print foo.x;
+print bar.x;

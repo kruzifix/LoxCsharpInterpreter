@@ -226,6 +226,9 @@ namespace LoxInterpreter
             {
                 var declaration = FunctionType.Method;
 
+                if (method.Name.Lexeme.Equals("init"))
+                    declaration = FunctionType.Initializer;
+
                 ResolveFunction(method, declaration);
             }
             EndScope();
@@ -264,7 +267,11 @@ namespace LoxInterpreter
             if (currentFunction == FunctionType.None)
                 Lox.Error(stmt.Keyword, "Cannot return from top-level code.");
             if (stmt.Value != null)
+            {
+                if (currentFunction == FunctionType.Initializer)
+                    Lox.Error(stmt.Keyword, "Cannot return a value from an initializer.");
                 Resolve(stmt.Value);
+            }
         }
 
         public void VisitVarStmt(VarStmt stmt)
