@@ -155,6 +155,12 @@ namespace LoxInterpreter
             Resolve(expr.Right);
         }
 
+        public void VisitSetExpr(SetExpr expr)
+        {
+            Resolve(expr.Value);
+            Resolve(expr.Object);
+        }
+
         public void VisitUnaryExpr(UnaryExpr expr)
         {
             Resolve(expr.Right);

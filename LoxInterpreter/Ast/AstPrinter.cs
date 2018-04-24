@@ -45,6 +45,11 @@ namespace LoxInterpreter
             throw new System.NotImplementedException();
         }
 
+        public string VisitSetExpr(SetExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitUnaryExpr(UnaryExpr expr)
         {
             return Parenthesize(expr.Operator.Lexeme, expr.Right);

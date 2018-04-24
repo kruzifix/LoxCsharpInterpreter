@@ -248,6 +248,18 @@ namespace LoxInterpreter
             return Evaluate(expr.Right);
         }
 
+        public object VisitSetExpr(SetExpr expr)
+        {
+            var obj = Evaluate(expr.Object);
+
+            if (!(obj is LoxInstance))
+                throw new RuntimeError(expr.Name, "Only instances have fields.");
+
+            var value = Evaluate(expr.Value);
+            (obj as LoxInstance).Set(expr.Name, value);
+            return value;
+        }
+
         public object VisitUnaryExpr(UnaryExpr expr)
         {
             var right = Evaluate(expr.Right);

@@ -23,6 +23,14 @@ namespace LoxInterpreter
             throw new RuntimeError(name, "Undefined property '" + name.Lexeme + "'.");
         }
 
+        public void Set(Token name, object value)
+        {
+            if (fields.ContainsKey(name.Lexeme))
+                fields[name.Lexeme] = value;
+            else
+                fields.Add(name.Lexeme, value);
+        }
+
         public override string ToString()
         {
             return string.Format("<instance {0}>", klass.Name);
