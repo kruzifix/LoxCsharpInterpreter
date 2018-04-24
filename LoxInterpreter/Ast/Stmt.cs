@@ -6,8 +6,8 @@ namespace LoxInterpreter
         void VisitBlockStmt(BlockStmt stmt);
         void VisitBreakStmt(BreakStmt stmt);
         void VisitClassStmt(ClassStmt stmt);
-        void VisitExpressionStmt(ExpressionStmt stmt);
         void VisitExecuteStmt(ExecuteStmt stmt);
+        void VisitExpressionStmt(ExpressionStmt stmt);
         void VisitFunctionStmt(FunctionStmt stmt);
         void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
@@ -20,8 +20,8 @@ namespace LoxInterpreter
         T VisitBlockStmt(BlockStmt stmt);
         T VisitBreakStmt(BreakStmt stmt);
         T VisitClassStmt(ClassStmt stmt);
-        T VisitExpressionStmt(ExpressionStmt stmt);
         T VisitExecuteStmt(ExecuteStmt stmt);
+        T VisitExpressionStmt(ExpressionStmt stmt);
         T VisitFunctionStmt(FunctionStmt stmt);
         T VisitIfStmt(IfStmt stmt);
         T VisitPrintStmt(PrintStmt stmt);
@@ -86,22 +86,6 @@ namespace LoxInterpreter
             return visitor.VisitClassStmt(this);
         }
     }
-    class ExpressionStmt : Stmt
-    {
-        public Expr Expression { get; }
-        public ExpressionStmt(Expr Expression)
-        {
-            this.Expression = Expression;
-        }
-        public override void Accept(IStmtVisitor visitor)
-        {
-            visitor.VisitExpressionStmt(this);
-        }
-        public override T Accept<T>(IStmtVisitor<T> visitor)
-        {
-            return visitor.VisitExpressionStmt(this);
-        }
-    }
     class ExecuteStmt : Stmt
     {
         public Token Keyword { get; }
@@ -118,6 +102,22 @@ namespace LoxInterpreter
         public override T Accept<T>(IStmtVisitor<T> visitor)
         {
             return visitor.VisitExecuteStmt(this);
+        }
+    }
+    class ExpressionStmt : Stmt
+    {
+        public Expr Expression { get; }
+        public ExpressionStmt(Expr Expression)
+        {
+            this.Expression = Expression;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitExpressionStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitExpressionStmt(this);
         }
     }
     class FunctionStmt : Stmt

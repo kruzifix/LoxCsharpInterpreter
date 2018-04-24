@@ -77,6 +77,11 @@ namespace LoxInterpreter
             environment.Assign(stmt.Name, klass);
         }
 
+        public void VisitExecuteStmt(ExecuteStmt stmt)
+        {
+            Lox.RunFile(stmt.Path.Lexeme.Trim('"'));
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);

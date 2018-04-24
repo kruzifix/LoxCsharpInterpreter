@@ -1,0 +1,5 @@
+execute "class.lox";
+
+var bac = Bacon();
+
+bac.eat();
