@@ -27,7 +27,7 @@ namespace LoxInterpreter
         {
             if (methods.ContainsKey(name))
             {
-                return methods[name];
+                return methods[name].Bind(instance);
             }
 
             return null;

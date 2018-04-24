@@ -21,12 +21,14 @@ cake.taste(); // Prints "The German chocolate cake is delicious!".
 class Thing {
   getCallback() {
     fun localFunction() {
-      print this;
+      print this.x;
     }
 
     return localFunction;
   }
 }
 
-var callback = Thing().getCallback();
+var t = Thing();
+var callback = t.getCallback();
+t.x = 13;
 callback();

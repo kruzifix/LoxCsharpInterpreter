@@ -13,6 +13,13 @@ namespace LoxInterpreter
             this.closure = closure;
         }
 
+        public LoxFunction Bind(LoxInstance instance)
+        {
+            var environment = new Environment(closure);
+            environment.Define("this", instance);
+            return new LoxFunction(declaration, environment);
+        }
+
         public int Arity()
         {
             return declaration.Parameters.Count;

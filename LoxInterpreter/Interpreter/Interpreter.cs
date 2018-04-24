@@ -268,6 +268,11 @@ namespace LoxInterpreter
             return value;
         }
 
+        public object VisitThisExpr(ThisExpr expr)
+        {
+            return LookUpVariable(expr.Keyword, expr);
+        }
+
         public object VisitUnaryExpr(UnaryExpr expr)
         {
             var right = Evaluate(expr.Right);

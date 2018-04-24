@@ -161,6 +161,11 @@ namespace LoxInterpreter
             Resolve(expr.Object);
         }
 
+        public void VisitThisExpr(ThisExpr expr)
+        {
+            ResolveLocal(expr, expr.Keyword);
+        }
+
         public void VisitUnaryExpr(UnaryExpr expr)
         {
             Resolve(expr.Right);
@@ -200,12 +205,20 @@ namespace LoxInterpreter
             Declare(stmt.Name);
             Define(stmt.Name);
 
+            BeginScope();
+            scopes.Peek().Add("this", new VariableData {
+                Defined = true,
+                Line = stmt.Name.Line,
+                Used = true
+            });
+
             foreach (var method in stmt.Methods)
             {
                 var declaration = FunctionType.Method;
 
                 ResolveFunction(method, declaration);
             }
+            EndScope();
         }
 
         public void VisitExpressionStmt(ExpressionStmt stmt)
