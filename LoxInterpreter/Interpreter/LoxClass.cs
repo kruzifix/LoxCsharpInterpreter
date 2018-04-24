@@ -15,12 +15,22 @@ namespace LoxInterpreter
 
         public int Arity()
         {
+            if (methods.ContainsKey("init"))
+            {
+                return methods["init"].Arity();
+            }
             return 0;
         }
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
-            return new LoxInstance(this);
+            var instance = new LoxInstance(this);
+            var initializer = FindMethod(instance, "init");
+            if (initializer != null)
+            {
+                initializer.Call(interpreter, arguments);
+            }
+            return instance;
         }
 
         public LoxFunction FindMethod(LoxInstance instance, string name)

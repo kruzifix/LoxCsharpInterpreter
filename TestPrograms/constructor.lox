@@ -1,0 +1,16 @@
+class Foo
+{
+	init(x)
+	{
+		this.x = x;
+		print this;
+	}
+}
+
+var foo = Foo(13);
+
+print foo.x;
+
+print foo.init(5);
+
+print foo.x;
