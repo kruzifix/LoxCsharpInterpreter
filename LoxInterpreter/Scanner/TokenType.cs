@@ -16,7 +16,7 @@
         Identifier, String, Number,
 
         // keywords
-        And, Break, Class, Else, False, Fun, For, If, Nil, Or,
+        And, Break, Class, Else, Execute, False, Fun, For, If, Nil, Or,
         Print, Return, Super, This, True, Var, While,
 
         Eof

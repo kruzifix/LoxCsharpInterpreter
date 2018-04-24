@@ -16,6 +16,7 @@ namespace LoxInterpreter
             keywords.Add("break", TokenType.Break);
             keywords.Add("class", TokenType.Class);
             keywords.Add("else", TokenType.Else);
+            keywords.Add("execute", TokenType.Execute);
             keywords.Add("false", TokenType.False);
             keywords.Add("for", TokenType.For);
             keywords.Add("fun", TokenType.Fun);
