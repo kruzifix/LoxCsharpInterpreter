@@ -28,8 +28,6 @@ namespace LoxInterpreter
             {
                 if (Match(TokenType.Class))
                     return ClassDeclaration();
-                if (Match(TokenType.Execute))
-                    return ExecuteDeclaration();
                 if (Match(TokenType.Fun))
                     return Function("function");
                 if (Match(TokenType.Var))
@@ -66,16 +64,6 @@ namespace LoxInterpreter
             Consume(TokenType.RightBrace, "Expected '}' after class body.");
 
             return new ClassStmt(name, superClass, methods);
-        }
-
-        private Stmt ExecuteDeclaration()
-        {
-            var keyword = Previous();
-            var value = Consume(TokenType.String, "Expected string after 'execute'.");
-
-            Consume(TokenType.Semicolon, "Expected ';' after string.");
-
-            return new ExecuteStmt(keyword, value);
         }
 
         private FunctionStmt Function(string kind)
@@ -116,6 +104,8 @@ namespace LoxInterpreter
 
         private Stmt Statement()
         {
+            if (Match(TokenType.Execute))
+                return ExecuteStatement();
             if (Match(TokenType.For))
                 return ForStatement();
             if (Match(TokenType.If))
@@ -131,6 +121,16 @@ namespace LoxInterpreter
             if (Match(TokenType.LeftBrace))
                 return new BlockStmt(Block());
             return ExpressionStatement();
+        }
+
+        private Stmt ExecuteStatement()
+        {
+            var keyword = Previous();
+            var value = Expression();
+
+            Consume(TokenType.Semicolon, "Expected ';' after value.");
+
+            return new ExecuteStmt(keyword, value);
         }
 
         private Stmt ForStatement()

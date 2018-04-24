@@ -70,7 +70,7 @@ defineAst('Stmt', [
     ('Block', [('List<Stmt>', 'Statements')]),
     ('Break', [('Token', 'Keyword')]),
     ('Class', [('Token', 'Name'), ('VariableExpr', 'SuperClass'), ('List<FunctionStmt>', 'Methods')]),
-    ('Execute', [('Token', 'Keyword'), ('Token', 'Path')]),
+    ('Execute', [('Token', 'Keyword'), ('Expr', 'Value')]),
 	('Expression', [('Expr', 'Expression')]),
 	('Function', [('Token', 'Name'), ('List<Token>', 'Parameters'), ('List<Stmt>', 'Body')]),
     ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),

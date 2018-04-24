@@ -1,4 +1,6 @@
-execute "class.lox";
+var path = "class";
+
+execute path + ".lox";
 
 var bac = Bacon();
 

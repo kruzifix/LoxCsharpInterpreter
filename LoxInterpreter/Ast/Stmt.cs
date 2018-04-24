@@ -89,11 +89,11 @@ namespace LoxInterpreter
     class ExecuteStmt : Stmt
     {
         public Token Keyword { get; }
-        public Token Path { get; }
-        public ExecuteStmt(Token Keyword, Token Path)
+        public Expr Value { get; }
+        public ExecuteStmt(Token Keyword, Expr Value)
         {
             this.Keyword = Keyword;
-            this.Path = Path;
+            this.Value = Value;
         }
         public override void Accept(IStmtVisitor visitor)
         {

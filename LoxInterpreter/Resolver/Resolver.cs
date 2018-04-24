@@ -262,10 +262,13 @@ namespace LoxInterpreter
 
         public void VisitExecuteStmt(ExecuteStmt stmt)
         {
-            // Todo: Allow only in top level ifs?
+            // Todo: Maybe allow in top level ifs?
             if (scopes.Count > 0)
+            {
                 Lox.Error(stmt.Keyword, "Execute only allowed on top-level.");
-            // After Path is Expression: Resolve here!
+            }
+
+            Resolve(stmt.Value);
         }
 
         public void VisitExpressionStmt(ExpressionStmt stmt)
