@@ -6,18 +6,20 @@ namespace LoxInterpreter
     {
         private FunctionStmt declaration;
         private Environment closure;
+        private bool isInitializer;
 
-        public LoxFunction(FunctionStmt declaration, Environment closure)
+        public LoxFunction(FunctionStmt declaration, Environment closure, bool isInitializer)
         {
             this.declaration = declaration;
             this.closure = closure;
+            this.isInitializer = isInitializer;
         }
 
         public LoxFunction Bind(LoxInstance instance)
         {
             var environment = new Environment(closure);
             environment.Define("this", instance);
-            return new LoxFunction(declaration, environment);
+            return new LoxFunction(declaration, environment, isInitializer);
         }
 
         public int Arity()
@@ -42,6 +44,10 @@ namespace LoxInterpreter
             {
                 return returnValue.Value;
             }
+
+            if (isInitializer)
+                return closure.GetAt(0, "this");
+
             return null;
         }
 
