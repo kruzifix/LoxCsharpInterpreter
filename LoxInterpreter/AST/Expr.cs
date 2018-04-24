@@ -11,6 +11,7 @@ namespace LoxInterpreter
         void VisitLiteralExpr(LiteralExpr expr);
         void VisitLogicalExpr(LogicalExpr expr);
         void VisitSetExpr(SetExpr expr);
+        void VisitSuperExpr(SuperExpr expr);
         void VisitThisExpr(ThisExpr expr);
         void VisitUnaryExpr(UnaryExpr expr);
         void VisitVariableExpr(VariableExpr expr);
@@ -25,6 +26,7 @@ namespace LoxInterpreter
         T VisitLiteralExpr(LiteralExpr expr);
         T VisitLogicalExpr(LogicalExpr expr);
         T VisitSetExpr(SetExpr expr);
+        T VisitSuperExpr(SuperExpr expr);
         T VisitThisExpr(ThisExpr expr);
         T VisitUnaryExpr(UnaryExpr expr);
         T VisitVariableExpr(VariableExpr expr);
@@ -180,6 +182,24 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitSetExpr(this);
+        }
+    }
+    class SuperExpr : Expr
+    {
+        public Token Keyword { get; }
+        public Token Method { get; }
+        public SuperExpr(Token Keyword, Token Method)
+        {
+            this.Keyword = Keyword;
+            this.Method = Method;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitSuperExpr(this);
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitSuperExpr(this);
         }
     }
     class ThisExpr : Expr

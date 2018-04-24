@@ -414,6 +414,14 @@ namespace LoxInterpreter
                 return new LiteralExpr(Previous().Literal);
             }
 
+            if (Match(TokenType.Super))
+            {
+                var keyword = Previous();
+                Consume(TokenType.Dot, "Expected '.' after 'super'.");
+                var method = Consume(TokenType.Identifier, "Expected superclass method name.");
+                return new SuperExpr(keyword, method);
+            }
+
             if (Match(TokenType.This))
             {
                 return new ThisExpr(Previous());

@@ -10,3 +10,23 @@ class BostonCream < Doughnut {}
 Doughnut().cook();
 
 BostonCream().cook();
+
+class A {
+  method() {
+    print "A method";
+  }
+}
+
+class B < A {
+  method() {
+    print "B method";
+  }
+
+  test() {
+    super.method();
+  }
+}
+
+class C < B {}
+
+C().test();

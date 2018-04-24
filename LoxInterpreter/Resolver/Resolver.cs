@@ -163,6 +163,11 @@ namespace LoxInterpreter
             Resolve(expr.Object);
         }
 
+        public void VisitSuperExpr(SuperExpr expr)
+        {
+            ResolveLocal(expr, expr.Keyword);
+        }
+
         public void VisitThisExpr(ThisExpr expr)
         {
             if (currentClass == ClassType.None)
@@ -216,7 +221,15 @@ namespace LoxInterpreter
             currentClass = ClassType.Class;
 
             if (stmt.SuperClass != null)
+            {
                 Resolve(stmt.SuperClass);
+                BeginScope();
+                scopes.Peek().Add("super", new VariableData {
+                    Defined = true,
+                    Line = stmt.Name.Line,
+                    Used = true
+                });
+            }
 
             BeginScope();
             scopes.Peek().Add("this", new VariableData {
@@ -235,6 +248,9 @@ namespace LoxInterpreter
                 ResolveFunction(method, declaration);
             }
             EndScope();
+
+            if (stmt.SuperClass != null)
+                EndScope();
 
             currentClass = enclosingClass;
         }

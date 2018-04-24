@@ -50,6 +50,11 @@ namespace LoxInterpreter
             throw new System.NotImplementedException();
         }
 
+        public string VisitSuperExpr(SuperExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitThisExpr(ThisExpr expr)
         {
             throw new System.NotImplementedException();

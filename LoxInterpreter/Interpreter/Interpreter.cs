@@ -56,6 +56,9 @@ namespace LoxInterpreter
                 superClass = Evaluate(stmt.SuperClass);
                 if (!(superClass is LoxClass))
                     throw new RuntimeError(stmt.SuperClass.Name, "Superclass must be class.");
+
+                environment = new Environment(environment);
+                environment.Define("super", superClass);
             }
 
             var methods = new Dictionary<string, LoxFunction>();
@@ -67,6 +70,10 @@ namespace LoxInterpreter
             }
 
             var klass = new LoxClass(stmt.Name.Lexeme, (LoxClass)superClass, methods);
+
+            if (stmt.SuperClass != null)
+                environment = environment.Enclosing;
+
             environment.Assign(stmt.Name, klass);
         }
 
@@ -275,6 +282,20 @@ namespace LoxInterpreter
             var value = Evaluate(expr.Value);
             (obj as LoxInstance).Set(expr.Name, value);
             return value;
+        }
+
+        public object VisitSuperExpr(SuperExpr expr)
+        {
+            int distance = locals[expr];
+            var superClass = (LoxClass)environment.GetAt(distance, "super");
+            var obj = (LoxInstance)environment.GetAt(distance - 1, "this");
+
+            var method = superClass.FindMethod(obj, expr.Method.Lexeme);
+
+            if (method == null)
+                throw new RuntimeError(expr.Method, "Undefined property '" + expr.Method.Lexeme + "'.");
+
+            return method;
         }
 
         public object VisitThisExpr(ThisExpr expr)

@@ -4,7 +4,8 @@ namespace LoxInterpreter
 {
     class Environment
     {
-        private Environment enclosing;
+        public Environment Enclosing { get; private set; }
+
         private Dictionary<string, object> values;
 
         public Environment()
@@ -13,7 +14,7 @@ namespace LoxInterpreter
 
         public Environment(Environment environment)
         {
-            enclosing = environment;
+            Enclosing = environment;
             values = new Dictionary<string, object>();
         }
 
@@ -30,9 +31,9 @@ namespace LoxInterpreter
                 return;
             }
 
-            if (enclosing != null)
+            if (Enclosing != null)
             {
-                enclosing.Assign(name, value);
+                Enclosing.Assign(name, value);
                 return;
             }
 
@@ -51,9 +52,9 @@ namespace LoxInterpreter
                 return values[name.Lexeme];
             }
 
-            if (enclosing != null)
+            if (Enclosing != null)
             {
-                return enclosing.Get(name);
+                return Enclosing.Get(name);
             }
 
             throw new RuntimeError(name, "Undefined variable '" + name.Lexeme + "'.");
@@ -68,7 +69,7 @@ namespace LoxInterpreter
         {
             var environment = this;
             for (int i = 0; i < distance; i++)
-                environment = environment.enclosing;
+                environment = environment.Enclosing;
             return environment;
         }
     }
