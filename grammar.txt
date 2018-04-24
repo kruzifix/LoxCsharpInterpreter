@@ -4,13 +4,14 @@ program -> declaration* EOF ;
 declaration    -> classDecl
                | funDecl
                | varDecl
-               | statement ;
+               | statement
+			   | executeDecl ;
 
 classDecl      -> "class" IDENTIFIER ( "<" IDENTIFIER )?
                  "{" function* "}" ;
 funDecl        -> "fun" function ;
 varDecl        -> "var" IDENTIFIER ( "=" expression )? ";" ;
-
+executeDecl	   -> "execute" STRING ";" ;
 
 
 statement      -> exprStmt
