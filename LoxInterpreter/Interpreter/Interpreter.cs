@@ -49,6 +49,15 @@ namespace LoxInterpreter
         public void VisitClassStmt(ClassStmt stmt)
         {
             environment.Define(stmt.Name.Lexeme, null);
+
+            object superClass = null;
+            if (stmt.SuperClass != null)
+            {
+                superClass = Evaluate(stmt.SuperClass);
+                if (!(superClass is LoxClass))
+                    throw new RuntimeError(stmt.SuperClass.Name, "Superclass must be class.");
+            }
+
             var methods = new Dictionary<string, LoxFunction>();
             foreach (var method in stmt.Methods)
             {
@@ -57,7 +66,7 @@ namespace LoxInterpreter
                 methods.Add(method.Name.Lexeme, function);
             }
 
-            var klass = new LoxClass(stmt.Name.Lexeme, methods);
+            var klass = new LoxClass(stmt.Name.Lexeme, (LoxClass)superClass, methods);
             environment.Assign(stmt.Name, klass);
         }
 

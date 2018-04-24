@@ -5,11 +5,14 @@ namespace LoxInterpreter
     class LoxClass : ICallable
     {
         public string Name { get; private set; }
+
+        private LoxClass superClass;
         private Dictionary<string, LoxFunction> methods;
 
-        public LoxClass(string name, Dictionary<string, LoxFunction> methods)
+        public LoxClass(string name, LoxClass superClass, Dictionary<string, LoxFunction> methods)
         {
             Name = name;
+            this.superClass = superClass;
             this.methods = methods;
         }
 
@@ -38,6 +41,11 @@ namespace LoxInterpreter
             if (methods.ContainsKey(name))
             {
                 return methods[name].Bind(instance);
+            }
+
+            if (superClass != null)
+            {
+                return superClass.FindMethod(instance, name);
             }
 
             return null;
