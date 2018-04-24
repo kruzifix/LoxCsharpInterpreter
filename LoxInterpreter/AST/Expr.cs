@@ -6,6 +6,7 @@ namespace LoxInterpreter
         void VisitAssignExpr(AssignExpr expr);
         void VisitBinaryExpr(BinaryExpr expr);
         void VisitCallExpr(CallExpr expr);
+        void VisitGetExpr(GetExpr expr);
         void VisitGroupingExpr(GroupingExpr expr);
         void VisitLiteralExpr(LiteralExpr expr);
         void VisitLogicalExpr(LogicalExpr expr);
@@ -17,6 +18,7 @@ namespace LoxInterpreter
         T VisitAssignExpr(AssignExpr expr);
         T VisitBinaryExpr(BinaryExpr expr);
         T VisitCallExpr(CallExpr expr);
+        T VisitGetExpr(GetExpr expr);
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
         T VisitLogicalExpr(LogicalExpr expr);
@@ -84,6 +86,24 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitCallExpr(this);
+        }
+    }
+    class GetExpr : Expr
+    {
+        public Expr Object { get; }
+        public Token Name { get; }
+        public GetExpr(Expr Object, Token Name)
+        {
+            this.Object = Object;
+            this.Name = Name;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitGetExpr(this);
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitGetExpr(this);
         }
     }
     class GroupingExpr : Expr

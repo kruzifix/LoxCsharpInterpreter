@@ -10,7 +10,7 @@ namespace LoxInterpreter
         {
             Name = name;
         }
-        
+
         public int Arity()
         {
             return 0;

@@ -358,6 +358,11 @@ namespace LoxInterpreter
             {
                 if (Match(TokenType.LeftParen))
                     expr = FinishCall(expr);
+                else if (Match(TokenType.Dot))
+                {
+                    var name = Consume(TokenType.Identifier, "Expected property name after '.'.");
+                    expr = new GetExpr(expr, name);
+                }
                 else
                     break;
             }
