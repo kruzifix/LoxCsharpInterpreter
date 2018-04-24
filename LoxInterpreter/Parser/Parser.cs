@@ -406,6 +406,11 @@ namespace LoxInterpreter
                 return new LiteralExpr(Previous().Literal);
             }
 
+            if (Match(TokenType.This))
+            {
+                return new ThisExpr(Previous());
+            }
+
             if (Match(TokenType.Identifier))
             {
                 return new VariableExpr(Previous());
