@@ -67,10 +67,12 @@ namespace LoxInterpreter
     class ClassStmt : Stmt
     {
         public Token Name { get; }
+        public VariableExpr SuperClass { get; }
         public List<FunctionStmt> Methods { get; }
-        public ClassStmt(Token Name, List<FunctionStmt> Methods)
+        public ClassStmt(Token Name, VariableExpr SuperClass, List<FunctionStmt> Methods)
         {
             this.Name = Name;
+            this.SuperClass = SuperClass;
             this.Methods = Methods;
         }
         public override void Accept(IStmtVisitor visitor)

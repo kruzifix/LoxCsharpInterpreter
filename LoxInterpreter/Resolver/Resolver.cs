@@ -215,6 +215,9 @@ namespace LoxInterpreter
             var enclosingClass = currentClass;
             currentClass = ClassType.Class;
 
+            if (stmt.SuperClass != null)
+                Resolve(stmt.SuperClass);
+
             BeginScope();
             scopes.Peek().Add("this", new VariableData {
                 Defined = true,
