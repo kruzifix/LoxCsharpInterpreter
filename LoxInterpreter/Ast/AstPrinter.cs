@@ -24,6 +24,11 @@ namespace LoxInterpreter
             throw new System.NotImplementedException();
         }
 
+        public string VisitGetExpr(GetExpr expr)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string VisitGroupingExpr(GroupingExpr expr)
         {
             return Parenthesize("group", expr.Expression);

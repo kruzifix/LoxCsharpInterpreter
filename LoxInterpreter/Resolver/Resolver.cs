@@ -135,6 +135,11 @@ namespace LoxInterpreter
                 Resolve(argument);
         }
 
+        public void VisitGetExpr(GetExpr expr)
+        {
+            Resolve(expr.Object);
+        }
+
         public void VisitGroupingExpr(GroupingExpr expr)
         {
             Resolve(expr.Expression);

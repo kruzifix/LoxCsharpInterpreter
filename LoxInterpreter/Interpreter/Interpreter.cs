@@ -209,6 +209,17 @@ namespace LoxInterpreter
             return function.Call(this, arguments);
         }
 
+        public object VisitGetExpr(GetExpr expr)
+        {
+            var obj = Evaluate(expr.Object);
+            if (obj is LoxInstance)
+            {
+                return ((LoxInstance)obj).Get(expr.Name);
+            }
+
+            throw new RuntimeError(expr.Name, "Only instances have properties.");
+        }
+
         public object VisitGroupingExpr(GroupingExpr expr)
         {
             return Evaluate(expr.Expression);
