@@ -4,3 +4,11 @@ print Breakfast; // Prints "DevonshireCream".
 
 var x = Breakfast();
 print x;
+
+x.name = "test";
+x.price = 3.5;
+
+print x.name + " " + x.price;
+
+x.price = x.price + 10;
+print x.price;
