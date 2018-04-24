@@ -184,6 +184,12 @@ namespace LoxInterpreter
                 Lox.Error(stmt.Keyword, "Cannot break outside of loop.");
         }
 
+        public void VisitClassStmt(ClassStmt stmt)
+        {
+            Declare(stmt.Name);
+            Define(stmt.Name);
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Resolve(stmt.Expression);
