@@ -1,4 +1,22 @@
-class Breakfast { }
+class Bacon
+{
+	eat()
+	{
+		print "crunchy crunch";
+	}
+}
+
+var e = Bacon().eat;
+print e;
+e();
+
+class Breakfast
+{ 
+	testPrint ()
+	{
+		//print this.name;
+	}
+}
 
 print Breakfast; // Prints "DevonshireCream".
 
@@ -12,3 +30,15 @@ print x.name + " " + x.price;
 
 x.price = x.price + 10;
 print x.price;
+
+fun addPrice(amount)
+{
+	print "adding " + amount + " to price.";
+}
+
+var br = Breakfast();
+br.addP = addPrice;
+br.addP(13.4);
+
+var tp = br.testPrint;
+tp();

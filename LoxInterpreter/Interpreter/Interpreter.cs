@@ -49,7 +49,15 @@ namespace LoxInterpreter
         public void VisitClassStmt(ClassStmt stmt)
         {
             environment.Define(stmt.Name.Lexeme, null);
-            var klass = new LoxClass(stmt.Name.Lexeme);
+            var methods = new Dictionary<string, LoxFunction>();
+            foreach (var method in stmt.Methods)
+            {
+                var function = new LoxFunction(method, environment);
+
+                methods.Add(method.Name.Lexeme, function);
+            }
+
+            var klass = new LoxClass(stmt.Name.Lexeme, methods);
             environment.Assign(stmt.Name, klass);
         }
 

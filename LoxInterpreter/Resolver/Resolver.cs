@@ -199,6 +199,13 @@ namespace LoxInterpreter
         {
             Declare(stmt.Name);
             Define(stmt.Name);
+
+            foreach (var method in stmt.Methods)
+            {
+                var declaration = FunctionType.Method;
+
+                ResolveFunction(method, declaration);
+            }
         }
 
         public void VisitExpressionStmt(ExpressionStmt stmt)
