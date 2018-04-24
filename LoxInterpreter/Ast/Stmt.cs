@@ -7,6 +7,7 @@ namespace LoxInterpreter
         void VisitBreakStmt(BreakStmt stmt);
         void VisitClassStmt(ClassStmt stmt);
         void VisitExpressionStmt(ExpressionStmt stmt);
+        void VisitExecuteStmt(ExecuteStmt stmt);
         void VisitFunctionStmt(FunctionStmt stmt);
         void VisitIfStmt(IfStmt stmt);
         void VisitPrintStmt(PrintStmt stmt);
@@ -20,6 +21,7 @@ namespace LoxInterpreter
         T VisitBreakStmt(BreakStmt stmt);
         T VisitClassStmt(ClassStmt stmt);
         T VisitExpressionStmt(ExpressionStmt stmt);
+        T VisitExecuteStmt(ExecuteStmt stmt);
         T VisitFunctionStmt(FunctionStmt stmt);
         T VisitIfStmt(IfStmt stmt);
         T VisitPrintStmt(PrintStmt stmt);
@@ -98,6 +100,24 @@ namespace LoxInterpreter
         public override T Accept<T>(IStmtVisitor<T> visitor)
         {
             return visitor.VisitExpressionStmt(this);
+        }
+    }
+    class ExecuteStmt : Stmt
+    {
+        public Token Keyword { get; }
+        public string Path { get; }
+        public ExecuteStmt(Token Keyword, string Path)
+        {
+            this.Keyword = Keyword;
+            this.Path = Path;
+        }
+        public override void Accept(IStmtVisitor visitor)
+        {
+            visitor.VisitExecuteStmt(this);
+        }
+        public override T Accept<T>(IStmtVisitor<T> visitor)
+        {
+            return visitor.VisitExecuteStmt(this);
         }
     }
     class FunctionStmt : Stmt
