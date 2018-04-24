@@ -30,3 +30,12 @@ class B < A {
 class C < B {}
 
 C().test();
+
+class ABC
+{
+	init()
+	{
+		super.test();
+	}
+}
+super.test();

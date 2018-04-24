@@ -165,6 +165,10 @@ namespace LoxInterpreter
 
         public void VisitSuperExpr(SuperExpr expr)
         {
+            if (currentClass == ClassType.None)
+                Lox.Error(expr.Keyword, "Cannot use 'super' outside of class.");
+            else if (currentClass == ClassType.Class)
+                Lox.Error(expr.Keyword, "Cannot use 'super' in a class with no superclass.");
             ResolveLocal(expr, expr.Keyword);
         }
 
@@ -222,6 +226,7 @@ namespace LoxInterpreter
 
             if (stmt.SuperClass != null)
             {
+                currentClass = ClassType.SubClass;
                 Resolve(stmt.SuperClass);
                 BeginScope();
                 scopes.Peek().Add("super", new VariableData {
