@@ -77,6 +77,18 @@ namespace LoxInterpreter
             environment.Assign(stmt.Name, klass);
         }
 
+        public void VisitExecuteStmt(ExecuteStmt stmt)
+        {
+            var path = Evaluate(stmt.Value);
+
+            if (!(path is string))
+            {
+                throw new RuntimeError(stmt.Keyword, "Execute path must be a string.");
+            }
+
+            Lox.RunFile(path as string);
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Evaluate(stmt.Expression);

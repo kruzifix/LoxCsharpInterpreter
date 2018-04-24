@@ -26,7 +26,7 @@ namespace LoxInterpreter
             }
         }
 
-        private static void RunFile(string path)
+        public static void RunFile(string path)
         {
             if (!File.Exists(path))
             {

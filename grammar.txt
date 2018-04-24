@@ -13,21 +13,23 @@ varDecl        -> "var" IDENTIFIER ( "=" expression )? ";" ;
 
 
 
-statement      -> exprStmt
+statement      -> breakStmt
+			   | executeStmt
+			   | exprStmt
                | forStmt
                | ifStmt
                | printStmt
-			   | breakStmt
                | returnStmt
                | whileStmt
                | block ;
-
+			   
+breakStmt      -> "break" ";";
+executeStmt	   -> "execute" expression ";" ;
 exprStmt       -> expression ";" ;
 forStmt        -> "for" "(" ( varDecl | exprStmt )
                  expression? ";" expression? ")" statement ;
 ifStmt         -> "if" "(" expression ")" statement ( "else" statement )? ;
 printStmt      -> "print" expression ";" ;
-breakStmt      -> "break" ";";
 returnStmt     -> "return" expression? ";" ;
 whileStmt      -> "while" "(" expression ")" statement ;
 block          -> "{" declaration* "}" ;

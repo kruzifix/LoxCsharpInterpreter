@@ -260,6 +260,17 @@ namespace LoxInterpreter
             currentClass = enclosingClass;
         }
 
+        public void VisitExecuteStmt(ExecuteStmt stmt)
+        {
+            // Todo: Maybe allow in top level ifs?
+            if (scopes.Count > 0)
+            {
+                Lox.Error(stmt.Keyword, "Execute only allowed on top-level.");
+            }
+
+            Resolve(stmt.Value);
+        }
+
         public void VisitExpressionStmt(ExpressionStmt stmt)
         {
             Resolve(stmt.Expression);

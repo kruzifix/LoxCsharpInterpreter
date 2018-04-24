@@ -104,6 +104,8 @@ namespace LoxInterpreter
 
         private Stmt Statement()
         {
+            if (Match(TokenType.Execute))
+                return ExecuteStatement();
             if (Match(TokenType.For))
                 return ForStatement();
             if (Match(TokenType.If))
@@ -119,6 +121,16 @@ namespace LoxInterpreter
             if (Match(TokenType.LeftBrace))
                 return new BlockStmt(Block());
             return ExpressionStatement();
+        }
+
+        private Stmt ExecuteStatement()
+        {
+            var keyword = Previous();
+            var value = Expression();
+
+            Consume(TokenType.Semicolon, "Expected ';' after value.");
+
+            return new ExecuteStmt(keyword, value);
         }
 
         private Stmt ForStatement()
