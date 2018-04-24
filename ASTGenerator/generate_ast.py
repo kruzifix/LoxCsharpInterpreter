@@ -59,7 +59,8 @@ defineAst('Expr', [
     ('Grouping', [('Expr', 'Expression')]),
     ('Literal', [('object', 'Value')]),
     ('Logical', [('Expr', 'Left'), ('Token', 'Operator'), ('Expr', 'Right')]),
-    ('Unary', [('Token', 'Operator'), ('Expr', 'Right')]),
+    ('Set', [('Expr', 'Object'), ('Token', 'Name'), ('Expr', 'Value')]),
+	('Unary', [('Token', 'Operator'), ('Expr', 'Right')]),
     ('Variable', [('Token', 'Name')])
 ], ['System.Collections.Generic'])
 

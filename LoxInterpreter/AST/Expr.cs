@@ -10,6 +10,7 @@ namespace LoxInterpreter
         void VisitGroupingExpr(GroupingExpr expr);
         void VisitLiteralExpr(LiteralExpr expr);
         void VisitLogicalExpr(LogicalExpr expr);
+        void VisitSetExpr(SetExpr expr);
         void VisitUnaryExpr(UnaryExpr expr);
         void VisitVariableExpr(VariableExpr expr);
     }
@@ -22,6 +23,7 @@ namespace LoxInterpreter
         T VisitGroupingExpr(GroupingExpr expr);
         T VisitLiteralExpr(LiteralExpr expr);
         T VisitLogicalExpr(LogicalExpr expr);
+        T VisitSetExpr(SetExpr expr);
         T VisitUnaryExpr(UnaryExpr expr);
         T VisitVariableExpr(VariableExpr expr);
     }
@@ -156,6 +158,26 @@ namespace LoxInterpreter
         public override T Accept<T>(IExprVisitor<T> visitor)
         {
             return visitor.VisitLogicalExpr(this);
+        }
+    }
+    class SetExpr : Expr
+    {
+        public Expr Object { get; }
+        public Token Name { get; }
+        public Expr Value { get; }
+        public SetExpr(Expr Object, Token Name, Expr Value)
+        {
+            this.Object = Object;
+            this.Name = Name;
+            this.Value = Value;
+        }
+        public override void Accept(IExprVisitor visitor)
+        {
+            visitor.VisitSetExpr(this);
+        }
+        public override T Accept<T>(IExprVisitor<T> visitor)
+        {
+            return visitor.VisitSetExpr(this);
         }
     }
     class UnaryExpr : Expr

@@ -247,6 +247,11 @@ namespace LoxInterpreter
                     var name = (expr as VariableExpr).Name;
                     return new AssignExpr(name, value);
                 }
+                else if (expr is GetExpr)
+                {
+                    var get = expr as GetExpr;
+                    return new SetExpr(get.Object, get.Name, value);
+                }
 
                 Error(equals, "Invalid assignment target.");
             }
