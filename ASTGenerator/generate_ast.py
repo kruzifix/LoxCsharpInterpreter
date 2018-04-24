@@ -71,7 +71,7 @@ defineAst('Stmt', [
     ('Break', [('Token', 'Keyword')]),
     ('Class', [('Token', 'Name'), ('VariableExpr', 'SuperClass'), ('List<FunctionStmt>', 'Methods')]),
     ('Expression', [('Expr', 'Expression')]),
-    ('Execute', [('Token', 'Keyword'), ('string', 'Path')]),
+    ('Execute', [('Token', 'Keyword'), ('Token', 'Path')]),
 	('Function', [('Token', 'Name'), ('List<Token>', 'Parameters'), ('List<Stmt>', 'Body')]),
     ('If', [('Expr', 'Condition'), ('Stmt', 'ThenBranch'), ('Stmt', 'ElseBranch')]),
     ('Print', [('Expr', 'Expression')]),

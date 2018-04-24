@@ -105,8 +105,8 @@ namespace LoxInterpreter
     class ExecuteStmt : Stmt
     {
         public Token Keyword { get; }
-        public string Path { get; }
-        public ExecuteStmt(Token Keyword, string Path)
+        public Token Path { get; }
+        public ExecuteStmt(Token Keyword, Token Path)
         {
             this.Keyword = Keyword;
             this.Path = Path;
