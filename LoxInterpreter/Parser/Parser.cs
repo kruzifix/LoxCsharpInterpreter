@@ -26,6 +26,8 @@ namespace LoxInterpreter
         {
             try
             {
+                if (Match(TokenType.Class))
+                    return ClassDeclaration();
                 if (Match(TokenType.Fun))
                     return Function("function");
                 if (Match(TokenType.Var))
@@ -38,6 +40,22 @@ namespace LoxInterpreter
                 Synchronize();
                 return null;
             }
+        }
+
+        private Stmt ClassDeclaration()
+        {
+            var name = Consume(TokenType.Identifier, "Expected class name.");
+            Consume(TokenType.LeftBrace, "Expected '{' before class body.");
+
+            var methods = new List<FunctionStmt>();
+            while (!Check(TokenType.RightBrace) && !IsAtEnd())
+            {
+                methods.Add(Function("method"));
+            }
+
+            Consume(TokenType.RightBrace, "Expected '}' after class body.");
+
+            return new ClassStmt(name, methods);
         }
 
         private FunctionStmt Function(string kind)
